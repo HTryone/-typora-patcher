@@ -1,10 +1,44 @@
-const asar = require("asar");
-const chalk = require("chalk");
+// ================================
+// 自动检测并安装依赖
+// ================================
 const fs = require("fs");
 const path = require("path");
 const { spawnSync } = require('child_process');
-const readlineSync = require("readline-sync");
 const os = require('os');
+
+const REQUIRED_DEPS = ["asar", "chalk@4", "readline-sync", "iconv-lite", "@electron/fuses"];
+const NODE_MODULES_DIR = path.join(__dirname, 'node_modules');
+
+if (!fs.existsSync(NODE_MODULES_DIR)) {
+    console.log("📦 首次运行，正在安装依赖...");
+    // npm init
+    const pkgFile = path.join(__dirname, 'package.json');
+    if (!fs.existsSync(pkgFile)) {
+        const init = spawnSync('npm', ['init', '-y'], { cwd: __dirname, stdio: 'inherit', shell: true });
+        if (init.status !== 0) {
+            console.error("❌ npm init 失败，请手动运行：npm init -y");
+            process.exit(1);
+        }
+    }
+    // npm install
+    const install = spawnSync('npm', ['install', ...REQUIRED_DEPS], { cwd: __dirname, stdio: 'inherit', shell: true });
+    if (install.status !== 0) {
+        console.error("❌ 依赖安装失败，请手动运行：npm install " + REQUIRED_DEPS.join(" "));
+        process.exit(1);
+    }
+    console.log("✅ 依赖安装完成！重新启动脚本...\n");
+    // 重新启动自身，让 require 能加载新安装的模块
+    const relaunch = spawnSync(process.execPath, [process.argv[1], ...process.argv.slice(2)], {
+        cwd: __dirname,
+        stdio: 'inherit',
+        shell: false
+    });
+    process.exit(relaunch.status || 0);
+}
+
+const asar = require("asar");
+const chalk = require("chalk");
+const readlineSync = require("readline-sync");
 const iconv = require('iconv-lite');
 const { flipFuses, FuseV1Options, FuseVersion } = require("@electron/fuses");
 
