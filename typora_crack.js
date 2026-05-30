@@ -482,7 +482,9 @@ const fsPromisesHook = {};
 const crypto = require("crypto");
 const originalPublicDecrypt = crypto.publicDecrypt;
 crypto.publicDecrypt = function (key, buffer) {
-    return Buffer.from(JSON.stringify(${JSON.stringify(ACT_ENTITY)}));
+    const entity = ${JSON.stringify(ACT_ENTITY)};
+    entity.date = (()=>{const d=new Date();return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear()})();
+    return Buffer.from(JSON.stringify(entity));
 };
 electron.app.whenReady().then(() => {
     electron.protocol.handle("https", async (request) => {
