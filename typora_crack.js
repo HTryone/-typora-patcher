@@ -489,8 +489,11 @@ crypto.publicDecrypt = function (key, buffer) {
 electron.app.whenReady().then(() => {
     electron.protocol.handle("https", async (request) => {
         if (request.url.includes('api/client/activate') || request.url.includes('api/client/renew')) {
+            const dynEntity = ${JSON.stringify(ACT_ENTITY)};
+            dynEntity.date = (()=>{const d=new Date();return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear()})();
+            const dynMsg = Buffer.from(JSON.stringify(dynEntity)).toString('base64');
             return new Response(JSON.stringify({
-                success: true, code: 0, retry: true, msg: "${StandardLicenseMsg}"
+                success: true, code: 0, retry: true, msg: dynMsg
             }), { status: 200 });
         }
         return electron.net.fetch(request, { bypassCustomProtocolHandlers: true });
