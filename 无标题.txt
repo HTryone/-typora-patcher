@@ -1,0 +1,12 @@
+
+# 1. 进入脚本目录
+cd D:\Typora
+
+# 2. 初始化 npm（如果还没 node_modules）
+npm init -y
+
+# 3. 安装所有依赖
+npm install asar chalk@4 readline-sync iconv-lite @electron/fuses
+
+# 4. 运行脚本
+node typora_crack.js
