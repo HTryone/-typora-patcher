@@ -486,9 +486,19 @@ crypto.publicDecrypt = function (key, buffer) {
     entity.date = (()=>{const d=new Date();return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear()})();
     return Buffer.from(JSON.stringify(entity));
 };
+// 额外 Hook: crypto.privateDecrypt (部分版本可能使用)
+if (crypto.privateDecrypt) {
+    const origPrivateDecrypt = crypto.privateDecrypt;
+    crypto.privateDecrypt = function (key, buffer) {
+        const entity = ${JSON.stringify(ACT_ENTITY)};
+        entity.date = (()=>{const d=new Date();return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear()})();
+        return Buffer.from(JSON.stringify(entity));
+    };
+}
 electron.app.whenReady().then(() => {
+    // Hook 1: 拦截渲染进程发起的 https 请求
     electron.protocol.handle("https", async (request) => {
-        if (request.url.includes('api/client/activate') || request.url.includes('api/client/renew')) {
+        if (request.url.includes('api/client/')) {
             const dynEntity = ${JSON.stringify(ACT_ENTITY)};
             dynEntity.date = (()=>{const d=new Date();return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear()})();
             const dynMsg = Buffer.from(JSON.stringify(dynEntity)).toString('base64');
@@ -498,6 +508,29 @@ electron.app.whenReady().then(() => {
         }
         return electron.net.fetch(request, { bypassCustomProtocolHandlers: true });
     });
+    // Hook 2: 拦截主进程 net.fetch 调用 (关键修复!)
+    const origNetFetch = electron.net.fetch.bind(electron.net);
+    electron.net.fetch = function(input, init) {
+        let url = '';
+        if (typeof input === 'string') url = input;
+        else if (input && typeof input.url === 'string') url = input.url;
+        if (url && url.includes('api/client/')) {
+            const dynEntity = ${JSON.stringify(ACT_ENTITY)};
+            dynEntity.date = (()=>{const d=new Date();return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear()})();
+            const dynMsg = Buffer.from(JSON.stringify(dynEntity)).toString('base64');
+            return Promise.resolve(new Response(JSON.stringify({
+                success: true, code: 0, retry: true, msg: dynMsg
+            }), { status: 200, headers: { 'content-type': 'application/json' } }));
+        }
+        return origNetFetch(input, init);
+    };
+    // Hook 3: 清理试用期相关 localStorage 数据
+    try {
+        const { session: { defaultSession } } = electron;
+        if (defaultSession) {
+            defaultSession.clearStorageData({ storages: ['localstorage', 'websql', 'indexdb'] }).catch(()=>{});
+        }
+    } catch(e) {}
 });
 /** Hook破解结束 */
 `;
@@ -551,12 +584,56 @@ function generateRegCode() {
     return code + '#';
 }
 
+// 清理试用数据
+function cleanTrialData() {
+    console.log(chalk.blue("\n零、清理试用期数据..."));
+    const trialPaths = [
+        path.join(os.homedir(), 'AppData', 'Roaming', 'Typora', 'Local Storage'),
+        path.join(os.homedir(), 'AppData', 'Roaming', 'Typora', 'Session Storage'),
+        path.join(os.homedir(), 'AppData', 'Roaming', 'Typora', 'SharedStorage'),
+        path.join(os.homedir(), 'AppData', 'Roaming', 'Typora', 'DIPS'),
+        path.join(os.homedir(), 'AppData', 'Roaming', 'Typora', 'Code Cache'),
+        path.join(os.homedir(), 'AppData', 'Roaming', 'Typora', 'Cache'),
+        path.join(os.homedir(), 'AppData', 'Roaming', 'Typora', 'GPUCache'),
+        path.join(os.homedir(), 'AppData', 'Roaming', 'Typora', 'DawnGraphiteCache'),
+        path.join(os.homedir(), 'AppData', 'Roaming', 'Typora', 'DawnWebGPUCache'),
+        path.join(os.homedir(), 'AppData', 'Roaming', 'Typora', 'Shared Dictionary'),
+        path.join(os.homedir(), 'AppData', 'Roaming', 'Typora', 'Network'),
+    ];
+    for (const p of trialPaths) {
+        try {
+            if (fs.existsSync(p)) {
+                fs.rmSync(p, { recursive: true, force: true });
+            }
+        } catch (e) {
+            // 静默跳过，某些文件可能被占用
+        }
+    }
+    // 清理注册表中的试用期相关键值
+    try {
+        const trialRegKeys = [
+            { key: 'HKCU\\Software\\Typora', name: 'SLicense' },
+            { key: 'HKCU\\Software\\Typora', name: 'IDate' },
+            { key: 'HKCU\\Software\\Typora', name: 'TrialStart' },
+            { key: 'HKCU\\Software\\Typora', name: 'TDate' },
+            { key: 'HKCU\\Software\\Typora', name: 'FirstLaunch' },
+            { key: 'HKCU\\Software\\Typora', name: 'LaunchCount' },
+        ];
+        for (const rk of trialRegKeys) {
+            deleteRegValue(rk.key, rk.name);
+        }
+    } catch (e) {}
+    console.log(chalk.greenBright("✅ 试用数据已清理！"));
+}
+
 // 主逻辑
 (async () => {
     try {
         process.stdout.write('\x1Bc');
         console.log(chalk.yellowBright("\n✨ 正在启动 Typora 激活脚本..."));
         console.log(chalk.greenBright("\n==== 开始处理... ===="));
+        // 先清理试用数据
+        cleanTrialData();
         console.log(chalk.blueBright("\n一、环境配置..."));
         if (fs.existsSync(appDir)) fs.rmSync(appDir, { recursive: true, force: true });
         console.log(chalk.blue("解包 app.asar"));
