@@ -495,6 +495,62 @@ if (crypto.privateDecrypt) {
         return Buffer.from(JSON.stringify(entity));
     };
 }
+// Hook: 拦截 electron.net.request (electron-fetch 默认使用此方法发请求!)
+// electron-fetch 在 Electron 环境中默认 useElectronNet=true，调用 electron.net.request 而非 net.fetch
+// 必须在 jsc 加载前同步设置，防止 electron-fetch 缓存原始引用
+const origNetRequest = electron.net.request.bind(electron.net);
+electron.net.request = function(options, callback) {
+    let url = '';
+    if (typeof options === 'string') url = options;
+    else if (options && typeof options.url === 'string') url = options.url;
+    else if (options && typeof options === 'object') {
+        const proto = options.protocol || 'https:';
+        const host = options.hostname || options.host || '';
+        const p = options.path || '/';
+        url = proto + '//' + host + p;
+    }
+    if (url && url.includes('api/client/')) {
+        const dynEntity = ${JSON.stringify(ACT_ENTITY)};
+        dynEntity.date = (()=>{const d=new Date();return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear()})();
+        const dynMsg = Buffer.from(JSON.stringify(dynEntity)).toString('base64');
+        const resBody = JSON.stringify({ success: true, code: 0, retry: true, msg: dynMsg });
+        const { EventEmitter } = require("events");
+        const mockReq = new EventEmitter();
+        mockReq.write = function() { return mockReq; };
+        mockReq.end = function() {
+            const mockRes = new EventEmitter();
+            mockRes.statusCode = 200;
+            mockRes.statusMessage = 'OK';
+            mockRes.headers = { 'content-type': 'application/json' };
+            mockRes.setEncoding = function() {};
+            mockRes.destroy = function() {};
+            mockRes.pipe = function(dest) {
+                process.nextTick(function() {
+                    dest.write(Buffer.from(resBody));
+                    dest.end();
+                });
+                return dest;
+            };
+            process.nextTick(function() {
+                mockReq.emit('response', mockRes);
+                process.nextTick(function() {
+                    mockRes.emit('data', Buffer.from(resBody));
+                    mockRes.emit('end');
+                });
+            });
+            return mockReq;
+        };
+        mockReq.abort = function() {};
+        mockReq.destroy = function() {};
+        mockReq.setTimeout = function() { return mockReq; };
+        mockReq.setHeader = function() { return mockReq; };
+        mockReq.getHeader = function() { return undefined; };
+        mockReq.removeHeader = function() { return mockReq; };
+        mockReq.flushHeaders = function() {};
+        return mockReq;
+    }
+    return origNetRequest(options, callback);
+};
 electron.app.whenReady().then(() => {
     // Hook 1: 拦截渲染进程发起的 https 请求
     electron.protocol.handle("https", async (request) => {
