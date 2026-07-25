@@ -587,6 +587,24 @@ electron.app.whenReady().then(() => {
             defaultSession.clearStorageData({ storages: ['localstorage', 'websql', 'indexdb'] }).catch(()=>{});
         }
     } catch(e) {}
+    // Hook 4: 定期恢复 SLicense（防止 Typora 运行时二次验证清空 license）
+    // Typora 有概率性 2nd 二次验证机制，验证 SLicense 签名失败会 unfill 清空注册表
+    const SLICENSE_VALUE = "RHJlYW1OeWE=#0#1/1/2059";
+    function restoreSLicense() {
+        try {
+            const { execSync } = require("child_process");
+            try {
+                const val = execSync('reg query "HKCU\\\\Software\\\\Typora" /v SLicense', { windowsHide: true, encoding: 'utf8' });
+                if (val.indexOf(SLICENSE_VALUE) === -1) {
+                    execSync('reg add "HKCU\\\\Software\\\\Typora" /v SLicense /t REG_SZ /d "' + SLICENSE_VALUE + '" /f', { windowsHide: true });
+                }
+            } catch(e) {
+                execSync('reg add "HKCU\\\\Software\\\\Typora" /v SLicense /t REG_SZ /d "' + SLICENSE_VALUE + '" /f', { windowsHide: true });
+            }
+        } catch(e) {}
+    }
+    restoreSLicense();
+    setInterval(restoreSLicense, 30000);
 });
 /** Hook破解结束 */
 `;
