@@ -452,6 +452,8 @@ if (${EnableHookDebug}) {
 }
 electron.app.on("browser-window-created", (_event, win) => {
     win.webContents.once("dom-ready", () => {
+        // 【静默化】窗口 DOM 就绪前再补一次 SLicense，确保渲染进程读到的是有效 license，不弹试用窗
+        restoreSLicense();
         if (${EnableHookDebug}) win.webContents.openDevTools({ mode: "detach" });
     });
 });
@@ -551,6 +553,27 @@ electron.net.request = function(options, callback) {
     }
     return origNetRequest(options, callback);
 };
+// Hook 4: 定期恢复 SLicense（防止 Typora 运行时二次验证清空 license）
+// Typora 有概率性 2nd 二次验证机制，验证 SLicense 签名失败会 unfill 清空注册表
+// 清空后会弹出"试用期剩余 0 天"，故需高频 + 提前恢复，把空窗压到最小，实现静默
+const SLICENSE_VALUE = "RHJlYW1OeWE=#0#1/1/2059";
+function restoreSLicense() {
+    try {
+        const { execSync } = require("child_process");
+        try {
+            const val = execSync('reg query "HKCU\\\\Software\\\\Typora" /v SLicense', { windowsHide: true, encoding: 'utf8' });
+            if (val.indexOf(SLICENSE_VALUE) === -1) {
+                execSync('reg add "HKCU\\\\Software\\\\Typora" /v SLicense /t REG_SZ /d "' + SLICENSE_VALUE + '" /f', { windowsHide: true });
+            }
+        } catch(e) {
+            execSync('reg add "HKCU\\\\Software\\\\Typora" /v SLicense /t REG_SZ /d "' + SLICENSE_VALUE + '" /f', { windowsHide: true });
+        }
+    } catch(e) {}
+}
+// 【静默化】app ready 之前就立即恢复一次，堵住"启动瞬间→首次恢复"的弹窗空窗
+restoreSLicense();
+// 高频恢复：2 秒一次（原为 30 秒），二次验证清空后瞬间补回，弹窗逻辑读到的始终是有效 license
+setInterval(restoreSLicense, 2000);
 electron.app.whenReady().then(() => {
     // Hook 1: 拦截渲染进程发起的 https 请求
     electron.protocol.handle("https", async (request) => {
@@ -587,24 +610,8 @@ electron.app.whenReady().then(() => {
             defaultSession.clearStorageData({ storages: ['localstorage', 'websql', 'indexdb'] }).catch(()=>{});
         }
     } catch(e) {}
-    // Hook 4: 定期恢复 SLicense（防止 Typora 运行时二次验证清空 license）
-    // Typora 有概率性 2nd 二次验证机制，验证 SLicense 签名失败会 unfill 清空注册表
-    const SLICENSE_VALUE = "RHJlYW1OeWE=#0#1/1/2059";
-    function restoreSLicense() {
-        try {
-            const { execSync } = require("child_process");
-            try {
-                const val = execSync('reg query "HKCU\\\\Software\\\\Typora" /v SLicense', { windowsHide: true, encoding: 'utf8' });
-                if (val.indexOf(SLICENSE_VALUE) === -1) {
-                    execSync('reg add "HKCU\\\\Software\\\\Typora" /v SLicense /t REG_SZ /d "' + SLICENSE_VALUE + '" /f', { windowsHide: true });
-                }
-            } catch(e) {
-                execSync('reg add "HKCU\\\\Software\\\\Typora" /v SLicense /t REG_SZ /d "' + SLICENSE_VALUE + '" /f', { windowsHide: true });
-            }
-        } catch(e) {}
-    }
+    // ready 后再补一次恢复（双保险）
     restoreSLicense();
-    setInterval(restoreSLicense, 30000);
 });
 /** Hook破解结束 */
 `;
