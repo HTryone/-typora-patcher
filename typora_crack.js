@@ -443,6 +443,25 @@ function getInsertCode(EnableHookDebug, atobMachineCode, email, nowDateStr) {
     return `
 /** Hook破解开始 */
 const electron = require("electron");
+// 【2nd 屏蔽】Typora 启动后约 530 秒触发一次 "2nd" 二次校验，其中约 20% 概率
+// 无条件吊销授权（该分支不读注册表，补写 SLicense 无效），运行中弹「试用 0 天」。
+// 拦截启动早期注册的、延迟在 8分40秒~9分05秒 之间的第一个定时器，使其永不触发。
+const __bootAt = Date.now();
+const __origSetTimeout = global.setTimeout;
+const __fakeTimer = { ref: function(){}, unref: function(){}, hasRef: function(){ return false; }, refresh: function(){ return this; }, _destroyed: true };
+let __2ndBlocked = false;
+function __hookSetTimeout(fn, delay) {
+    if (!__2ndBlocked && typeof delay === "number" && delay >= 520000 && delay <= 545000 && Date.now() - __bootAt < 120000) {
+        __2ndBlocked = true;
+        return __fakeTimer;
+    }
+    return __origSetTimeout.apply(this, arguments);
+}
+global.setTimeout = __hookSetTimeout;
+try {
+    const __timers = require("timers");
+    if (__timers && __timers.setTimeout !== __hookSetTimeout) __timers.setTimeout = __hookSetTimeout;
+} catch (e) {}
 if (${EnableHookDebug}) {
     Object.defineProperty(electron.app, "quit", {
         value: function () {},
@@ -572,8 +591,25 @@ function restoreSLicense() {
 }
 // 【静默化】app ready 之前就立即恢复一次，堵住"启动瞬间→首次恢复"的弹窗空窗
 restoreSLicense();
-// 高频恢复：2 秒一次（原为 30 秒），二次验证清空后瞬间补回，弹窗逻辑读到的始终是有效 license
-setInterval(restoreSLicense, 2000);
+// 【IDate 兜底】吊销发生后 Typora 按 IDate 计算试用剩余天数；IDate 是激活当天写死的，
+// 过了 15 天窗口后一旦漏网触发吊销就会显示「试用 0 天」。把 IDate 保持为当天，
+// 使剩余天数恒为 15 天，作为 2nd 屏蔽万一失效时的兜底（每天只需实际写一次注册表）。
+let __idateToday = null;
+function refreshIDate() {
+    try {
+        const d = new Date();
+        const val = String(d.getMonth() + 1).padStart(2, "0") + "/" + String(d.getDate()).padStart(2, "0") + "/" + d.getFullYear();
+        if (val !== __idateToday) {
+            __idateToday = val;
+            const { execSync } = require("child_process");
+            execSync('reg add "HKCU\\\\Software\\\\Typora" /v IDate /t REG_SZ /d "' + val + '" /f', { windowsHide: true });
+        }
+    } catch (e) {}
+}
+refreshIDate();
+setInterval(refreshIDate, 30 * 60 * 1000);
+// SLicense 恢复降频：二次验证右路不读注册表，恢复仅保证"下次启动"能读到有效值，5 秒一次足够
+setInterval(restoreSLicense, 5000);
 electron.app.whenReady().then(() => {
     // Hook 1: 拦截渲染进程发起的 https 请求
     electron.protocol.handle("https", async (request) => {
