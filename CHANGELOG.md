@@ -8,6 +8,40 @@
 
 ---
 
+## [1.0.4] - 2026-10-23
+
+### 修复
+- **拦截 Typora 自动更新，根治「第二天弹试用期剩余 X 天」（更新覆盖型）**
+  - **现象**：激活后第二天 Typora 变回官方试用态，弹「试用期剩余 X 天」，期间用户并没有主动更新。
+  - **根因**（本机 typora-old.log 实锤）：Typora 启动约 17 秒后自动 `checkForUpdates`，发现新版本后**不打扰用户直接下载安装**（10/11 日志：20:44:16 查询 → 20:44:23 开始下载 `typora-update-x64-1.14.10.exe` → 20:44:56 自动装完重启）。安装器把 `Typora.exe` 与 `app.asar` 换回官方新版后，Electron Fuses 复原、注入代码缺席，下次启动 RSA 验签失败即 `onUnfillLicense` 吊销授权。
+  - **修复**（`getInsertCode` 注入模板内新增 `isUpdateUrl()`，4 个网络出口全部拦截，命中即返回 204 空响应，更新器解析失败静默放弃）：
+    1. `globalThis.fetch`（Node 层兜底）；
+    2. `electron.net.request`（electron-fetch 默认通道）；
+    3. `electron.protocol.handle("https")`（渲染进程请求）；
+    4. `electron.net.fetch`（主进程 fetch）。
+  - **误拦自查**：单测确认 `api/client/activate`、`api/client/renew`（授权续订）不受影响；拦截范围仅限 `typora.io` / `typoraio.cn` 域下的 `/releases/`、`downloads.typoraio`、`download.typora`、`typora-update`。
+  - **验证**：注入代码 `node --check` 通过；9 组 URL 判定单测通过；实机重注入后 `[L] pass`、`trailRemains is 15`，启动 29 秒后更新检查被拦（日志无 `update-available`、无 `start downloading`），授权与 12h 续订正常。
+
+### 加固
+- `process.stdout/stdin/stderr.setEncoding` 加 TTY 判断：脚本被管道/重定向运行时不再崩溃（不影响双击 `start.bat` 的正常使用）。
+
+### 说明
+- **第二类失效原因不变**：手里还是 v1.0.2 及更早发行包的同学，其注入代码里没有 2nd 二次校验屏蔽（约 20% 概率吊销授权 + IDate 写死激活日），表现为弹窗天数一天比一天少（14、13、12…）。这类必须换最新包重跑脚本，仅更新 Typora 无效。
+- 若用户主动想升级 Typora：先跑脚本回滚为官方原版 → 安装新版 Typora → 再跑一次脚本重新激活。
+
+### 改动文件
+| 文件 | 改动 |
+|------|------|
+| `typora_crack.js` | 注入模板 +60 行左右（isUpdateUrl + 4 出口拦截）；TTY 加固 3 行 |
+| `README.md` | 顶部加「务必使用最新版」提示；FAQ 重写过期条目 |
+
+### 提交信息
+```
+fix: 拦截 Typora 自动更新，根治更新覆盖导致的次日授权失效（v1.0.4）
+```
+
+---
+
 ## [1.0.3] - 2026-09-10
 
 ### 修复
