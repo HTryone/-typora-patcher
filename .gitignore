@@ -2,6 +2,7 @@ node_modules/
 package-lock.json
 package.json
 .workbuddy/
+.DSH/
 fax/
 # green build folder: the Typora payload and build artifacts stay out of git,
 # but the hand-written entry/notice files ARE source and must be tracked.
@@ -13,3 +14,9 @@ green-test/*
 AItyporapojietmptypora-profile/
 无标题.txt
 *.7z
+# throwaway scratch (temp scripts / notes / probes) - never commit these
+tmp/
+tmp_*
+# Windows junk
+Thumbs.db
+desktop.ini

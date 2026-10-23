@@ -8,7 +8,7 @@
 
 ---
 
-## [1.0.6] - 未发布
+## [1.0.6] - 2026-10-24
 
 ### 修复
 - **绿色版换机器必回「未激活 + 15 天试用」（issue #2 用户实测）—— 根因是 fingerprint 覆盖的时序竞态**
@@ -45,6 +45,21 @@
 | `green-test/START-Typora.bat` | 保留为后备入口；首次运行判断改用包外标记 |
 | `green-test/app/resources/app/launch.dist.js`（不进 git） | 绿色版成品注入文件重新生成（含上述修复） |
 | `green-test/README-先看我.txt`、`green-test/使用说明.md` | 入口改为 `START-Typora.exe`，说明后备入口与误报处置 |
+| `green-test/Typora Green.lnk`（删除，不进 git） | 本机跑启动器时生成的快捷方式，指向打包机绝对路径，不该随包发行 |
+| `green-test/app/typora_crack.js`（删除，不进 git） | 构建残留的旧 patcher 副本，运行时不引用，留着会误导使用者 |
+| `DOC/`（新） | 6 篇开发者文档：索引、构建绿色版、配脚本版包、启动器开发、发版上传、排错手册 |
+
+### 提交
+
+| 提交 | 说明 |
+|------|------|
+| `55aad5d` | feat: 绿色版启动器改为编译版 exe；修掉换机器回试用的指纹竞态 |
+| `90f9895` | docs: 新增 DOC/ 开发者文档；把绿色版手写入口与说明纳入仓库 |
+| `e46d2fb` | docs: README 增加「开发 / 自己构建」入口，指到 DOC/ |
+| `8141c2d` | chore: .gitignore 补上临时文件与工作区记忆目录规则 |
+| `fca267b` | docs: 定稿 v1.0.6（CHANGELOG 填日期与提交表；README 加 v1.0.6 更新说明） |
+
+标签 `v1.0.6` 打在本版最后一个**代码提交** `55aad5d` 上（不含其后仅文档的提交）。
 
 ---
 
