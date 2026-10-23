@@ -442,7 +442,30 @@ function getInsertCode(EnableHookDebug, atobMachineCode, email, nowDateStr) {
     };
     const StandardLicenseMsg = Buffer.from(JSON.stringify(ACT_ENTITY)).toString('base64');
     return `
+
 /** Hook破解开始 */
+// 【v1.0.5 绿色版】运行时取本机真实 fingerprint（Typora 内部 machineCode 的 i 字段）。
+// Typora 本地校验只比对 fingerprint，不比对 deviceId；激活实体里的 fingerprint 必须
+// 等于本机运行时值（换机器即不同），否则解 SLicense 后比对失败 → onUnfillLicense 回试用。
+let __realFp = null;
+function __getRealFp() {
+    if (__realFp) return __realFp;
+    try {
+        const h = electron.ipcMain._invokeHandlers;
+        const fn = h && h.get && h.get("license.machineCode");
+        if (fn) {
+            const fakeEvent = { sender: { send: function(){}, isDestroyed: function(){ return true; } }, frameId: 0, processId: 0, reply: function(){} };
+            const ret = fn(fakeEvent);
+            if (ret && typeof ret.then === "function") {
+                ret.then(function (mc) {
+                    try { __realFp = JSON.parse(Buffer.from(mc, "base64").toString("utf8")).i; } catch (e) {}
+                }).catch(function () {});
+            }
+        }
+    } catch (e) {}
+    return __realFp;
+}
+
 const electron = require("electron");
 // 【2nd 屏蔽】Typora 启动后约 530 秒触发一次 "2nd" 二次校验，其中约 20% 概率
 // 无条件吊销授权（该分支不读注册表，补写 SLicense 无效），运行中弹「试用 0 天」。
@@ -505,6 +528,7 @@ const crypto = require("crypto");
 const originalPublicDecrypt = crypto.publicDecrypt;
 crypto.publicDecrypt = function (key, buffer) {
     const entity = ${JSON.stringify(ACT_ENTITY)};
+    if (typeof __getRealFp === "function" && __getRealFp()) entity.fingerprint = __getRealFp();
     entity.date = (()=>{const d=new Date();return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear()})();
     return Buffer.from(JSON.stringify(entity));
 };
@@ -513,6 +537,7 @@ if (crypto.privateDecrypt) {
     const origPrivateDecrypt = crypto.privateDecrypt;
     crypto.privateDecrypt = function (key, buffer) {
         const entity = ${JSON.stringify(ACT_ENTITY)};
+        if (typeof __getRealFp === "function" && __getRealFp()) entity.fingerprint = __getRealFp();
         entity.date = (()=>{const d=new Date();return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear()})();
         return Buffer.from(JSON.stringify(entity));
     };
@@ -585,6 +610,7 @@ electron.net.request = function(options, callback) {
     }
     if (url && url.includes('api/client/')) {
         const dynEntity = ${JSON.stringify(ACT_ENTITY)};
+        if (typeof __getRealFp === "function" && __getRealFp()) dynEntity.fingerprint = __getRealFp();
         dynEntity.date = (()=>{const d=new Date();return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear()})();
         const dynMsg = Buffer.from(JSON.stringify(dynEntity)).toString('base64');
         const resBody = JSON.stringify({ success: true, code: 0, retry: true, msg: dynMsg });
@@ -672,6 +698,7 @@ electron.app.whenReady().then(() => {
         }
         if (request.url.includes('api/client/')) {
             const dynEntity = ${JSON.stringify(ACT_ENTITY)};
+            if (typeof __getRealFp === "function" && __getRealFp()) dynEntity.fingerprint = __getRealFp();
             dynEntity.date = (()=>{const d=new Date();return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear()})();
             const dynMsg = Buffer.from(JSON.stringify(dynEntity)).toString('base64');
             return new Response(JSON.stringify({
@@ -692,6 +719,7 @@ electron.app.whenReady().then(() => {
         }
         if (url && url.includes('api/client/')) {
             const dynEntity = ${JSON.stringify(ACT_ENTITY)};
+            if (typeof __getRealFp === "function" && __getRealFp()) dynEntity.fingerprint = __getRealFp();
             dynEntity.date = (()=>{const d=new Date();return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear()})();
             const dynMsg = Buffer.from(JSON.stringify(dynEntity)).toString('base64');
             return Promise.resolve(new Response(JSON.stringify({

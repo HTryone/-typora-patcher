@@ -8,6 +8,33 @@
 
 ---
 
+## [1.0.5] - 2026-10-23
+
+### 新增
+- **绿色版支持：激活实体的 fingerprint 运行时动态匹配本机**
+  - **背景**：把打完补丁的 Typora 整目录打包（绿色版，解压即用）时，激活实体里的 `fingerprint`（机器码 `i` 字段）是打包机器的值；Typora 本地校验会拿它比对**本机运行时指纹**，不一致即 `onUnfillLicense` 吊销回试用（deviceId 机器名|用户名不参与比对，已实验证实）。
+  - **实现**（`getInsertCode` 注入模板）：
+    1. 新增 `__getRealFp()`：运行时调用 Typora 内部 IPC 处理器 `license.machineCode`（`electron.ipcMain._invokeHandlers`），取本机真实 `{v,i,l}` 中的 `i`；
+    2. 5 处验签/续订伪实体（publicDecrypt、privateDecrypt、net.request、protocol.handle、net.fetch）在实例化后把 `fingerprint` 覆盖为 `__getRealFp()`（取不到时回退静态值）。
+  - **效果**：同一份绿色包在任何机器上首次启动即自激活，无需跑脚本、无需输入机器码邮箱。
+  - **验证**（V8 Inspector 运行时取证 + 实机三连）：
+    - 分离变量实验：假 fingerprint ❌ → 真 fingerprint ✅ pass（deviceId 保持假值不影响）；
+    - 清备份后全新 profile 首启 `[L] pass`、二次启动 `[L] pass`；`renewLicense` 日志确认实体的 `l` 为假值仍通过（证实只比对 fingerprint）。
+
+### 说明
+- **绿色版打包要点**（v1.0.5 注入代码已含动态 fingerprint，打补丁流程不变）：
+  - 可删 `Typora.exe.bak`、`resources/app.asar.bak`（回滚用，绿色包不带）；
+  - **必须保留** `resources/app.bak/`（3 个文件：launch.dist.js 原版、atom.compiled.dist.jsc、package.json）——fs hook 把 `resources/app/` 的读取重定向到 `app.bak/`，删了它 Typora 启动即卡死（实测）；
+  - fuse `EnableNodeCliInspectArguments` 保持默认关闭状态即可；测试用调试探针（`inspector.open`）打包前必须移除。
+- 脚本激活路径（start.bat 三步）行为不变：本机跑脚本时机器码邮箱由用户输入，`__getRealFp()` 取到的本机值与输入一致（同源），互不影响。
+
+### 改动文件
+| 文件 | 改动 |
+|------|------|
+| `typora_crack.js` | 注入模板 +30 行左右（`__getRealFp` 助手 + 5 处 fingerprint 覆盖） |
+
+---
+
 ## [1.0.4] - 2026-10-23
 
 ### 修复
