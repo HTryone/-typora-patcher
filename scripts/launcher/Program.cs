@@ -1,4 +1,4 @@
-// Typora Green 启动器（编译版，替代 START-Typora.bat 里那串内联 PowerShell）
+// Typora Green 启动器（编译版；取代了早期 START-Typora.bat 里的内联 PowerShell 写法）
 // 编译：见 scripts/build-launcher.sh（csc -target:winexe -codepage:65001）
 // 行为：① 校验 app\Typora.exe 存在；② 首次运行建快捷方式（包根 + 桌面，桌面路径按注册表
 //       User Shell Folders 解析，兼容被重定向到 D:\desktop 这类情况）；③ 启动 Typora。

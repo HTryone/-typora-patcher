@@ -40,12 +40,12 @@ bash scripts/build-launcher.sh
 5. **建 .lnk**：`WScript.Shell` COM，写 `TargetPath` / `WorkingDirectory` / `IconLocation`（`<exe>,0`）。
 6. **最后启动** `app\Typora.exe`，工作目录设为 `app\`。
 
-约定：不引入任何第三方 DLL；不碰注册表其它键；`.exe` 不做代码签名（文档里已写明可能被安全软件误报，后备方案是 `START-Typora.bat`）。
+约定：不引入任何第三方 DLL；不碰注册表其它键；`.exe` 不做代码签名（文档里已写明可能被安全软件误报，处置办法是加入白名单；不再提供 `.bat` 后备入口）。
 
-## 与 `START-Typora.bat`（后备入口）的差异
+## 关于旧的 `.bat` 入口
 
-`.bat` 只做「标记不存在才建快捷方式」，**没有**第 3 条自检自愈 —— 它只是 exe 被误杀时的备胎。
-`SETUP.bat` 的 UNREG 分支（选 3）会往标记里写 `removed`，两个入口都认这个状态。
+v1.0.6 起**不再随包提供** `START-Typora.bat`：它只做「标记不存在才建快捷方式」，没有自检自愈，且内联 PowerShell 写法不稳。现在包内唯一入口就是 `START-Typora.exe`。
+`SETUP.bat` 的 UNREG 分支（选 3）会往标记里写 `removed`，启动器认这个状态。
 ⚠️ `SETUP.bat` 是 **CRLF + GBK 混合编码**的历史文件：要改它只许**按字节插纯 ASCII 行**，绝不能整体重写成 UTF-8（会乱码）。
 
 ## 改完至少跑这些（本机实测矩阵）

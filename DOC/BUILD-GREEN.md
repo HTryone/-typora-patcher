@@ -60,8 +60,7 @@ node typora_crack.js
 ```
 green-test/                 ← 打包时压这一层（别把 green-test 这个名字套进去）
 ├─ app/                     ← 打好补丁的 Typora
-├─ START-Typora.exe         ← 启动器（下一步编译）
-├─ START-Typora.bat         ← 启动器后备（exe 被误杀时用）
+├─ START-Typora.exe         ← 启动器（下一步编译；唯一入口，不再带 .bat）
 ├─ SETUP.bat                ← 可选设置菜单
 ├─ README-先看我.txt
 └─ 使用说明.md

@@ -31,7 +31,7 @@
 - **新增 `START-Typora.exe`**：用系统自带 .NET Framework 4.x 的 `csc.exe` 编译（源码 `scripts/launcher/Program.cs`，构建脚本 `scripts/build-launcher.sh`），**产物 6.5KB、零额外依赖**，Win10/11 直接可跑。
   - 旧的 `START-Typora.bat` 是「.bat 里塞一长串内联 PowerShell」：引号、`%` 展开、`&|()` 转义、编码四件事一起踩，而且失败还是静默的（本次「用户机不建快捷方式」就是这么跳过去的）。
   - exe 改用 `WScript.Shell` COM 直接建 `.lnk`，**不受 PowerShell 执行策略、也不受「压缩包解压带网络标记（MOTW）」影响**；桌面路径按注册表 `User Shell Folders` 解析（兼容桌面被重定向到 `D:\desktop` 这类情况）；出错用 MessageBox 明确弹出，不再静默。
-  - `START-Typora.bat` 保留作后备入口（应对 exe 被安全软件误杀的情况）；它按「标记不存在才建快捷方式」处理，exe 那套自检逻辑它没有。
+  - **`.bat` 入口不再随包提供**：包内唯一入口就是 `START-Typora.exe`。旧的 `START-Typora.bat` 只做「标记不存在才建快捷方式」、没有自检自愈，内联 PowerShell 写法也不稳；exe 若被安全软件误拦，处置办法是加入白名单。
   - **快捷方式自愈**：标记做成三态 —— 不存在 = 首次运行；`done` = 已装；`removed` = 用户在 `SETUP.bat` 选过 3（Remove everything）。`done` 状态下每次启动都自检两处快捷方式：**文件被删了、或 target 指向的不是当前这个包（文件夹被挪走），就自动补建 / 改成新路径**，不用手动折腾。`SETUP.bat` 的 3 号选项随之补一行写入 `removed`，否则启动器会把刚删掉的图标又建回来。
   - **实测矩阵**（本机，日志/快捷方式 target 为准）：① 无标记无快捷方式 → 两处都建、标记写 `done`；② 标记 `done` 但桌面 .lnk 被删 → 自动补建；③ 整个包目录改名 → 两处快捷方式自动改指新路径；④ 标记 `removed` → 一处都不建（尊重「Remove everything」）；⑤ 真实包跑一遍 → `[L] pass`，两处快捷方式指向正确。
 
@@ -42,11 +42,12 @@
 | `scripts/launcher/Program.cs`（新） | 绿色版启动器源码（C#，.NET Framework 4.x，仅用系统库） |
 | `scripts/build-launcher.sh`（新） | 构建脚本：`bash scripts/build-launcher.sh` → `green-test/START-Typora.exe` |
 | `green-test/START-Typora.exe`（新，不进 git） | 编译版启动器，6.5KB |
-| `green-test/START-Typora.bat` | 保留为后备入口；首次运行判断改用包外标记 |
+| `green-test/START-Typora.bat`（**已删除**，不进 git 成品） | 该入口已移除，包内只保留 `START-Typora.exe` |
 | `green-test/app/resources/app/launch.dist.js`（不进 git） | 绿色版成品注入文件重新生成（含上述修复） |
 | `green-test/README-先看我.txt`、`green-test/使用说明.md` | 入口改为 `START-Typora.exe`，说明后备入口与误报处置 |
 | `green-test/Typora Green.lnk`（删除，不进 git） | 本机跑启动器时生成的快捷方式，指向打包机绝对路径，不该随包发行 |
 | `green-test/app/typora_crack.js`（删除，不进 git） | 构建残留的旧 patcher 副本，运行时不引用，留着会误导使用者 |
+| `green-test/app/使用说明.md`（删除，不进 git） | 早期遗留的陈旧副本，内容已过时（提到不存在的 `bat\register-assoc.bat`、说双击 START-Typora.bat），包根已有正确版本 |
 | `DOC/`（新） | 6 篇开发者文档：索引、构建绿色版、配脚本版包、启动器开发、发版上传、排错手册 |
 
 ### 提交
@@ -56,10 +57,10 @@
 | `55aad5d` | feat: 绿色版启动器改为编译版 exe；修掉换机器回试用的指纹竞态 |
 | `90f9895` | docs: 新增 DOC/ 开发者文档；把绿色版手写入口与说明纳入仓库 |
 | `e46d2fb` | docs: README 增加「开发 / 自己构建」入口，指到 DOC/ |
-| `8141c2d` | chore: .gitignore 补上临时文件与工作区记忆目录规则 |
-| `fca267b` | docs: 定稿 v1.0.6（CHANGELOG 填日期与提交表；README 加 v1.0.6 更新说明） |
+| `640d918` | docs: 开发者文档与 v1.0.6 定稿（合并 .gitignore 规则、定稿说明、残留补记三笔；另含 DOC/BUILD-SCRIPT.md 不附带 typora-his 的更正） |
+| `4fa1e73` | docs: 版本口径统一（发行版本 v1.0.6 / 基于 Typora 1.14.10）并新增 DOC/VERSIONS.md 版本改造对照 |
 
-标签 `v1.0.6` 打在本版最后一个**代码提交** `55aad5d` 上（不含其后仅文档的提交）。
+标签 `v1.0.6` 打在本版**最后一次提交**上（含全部代码与文档改动）；因最后一笔在定稿时被 amend 过，其哈希以 `git rev-parse v1.0.6` 为准。
 
 ---
 
