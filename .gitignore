@@ -3,7 +3,13 @@ package-lock.json
 package.json
 .workbuddy/
 fax/
-green-test/
+# green build folder: the Typora payload and build artifacts stay out of git,
+# but the hand-written entry/notice files ARE source and must be tracked.
+green-test/*
+!green-test/START-Typora.bat
+!green-test/SETUP.bat
+!green-test/README-先看我.txt
+!green-test/使用说明.md
 AItyporapojietmptypora-profile/
 无标题.txt
 *.7z
