@@ -7,7 +7,7 @@
 | | 🟢 免安装绿色版 | 🔧 脚本版 |
 |---|---|---|
 | **适合谁** | 所有人（尤其小白） | 想自己动手 / 对绿色版有顾虑的人 |
-| **使用方式** | 解压 → 双击 `START-Typora.bat` → 完成 | 安装 Node.js 和 Typora → 跑 `start.bat` → 输入机器码 |
+| **使用方式** | 解压 → 双击 `START-Typora.exe` → 完成 | 安装 Node.js 和 Typora → 跑 `start.bat` → 输入机器码 |
 | **需要 Node.js** | ❌ 不需要 | ✅ 需要（包内附带） |
 | **需要 Typora 安装包** | ❌ 内置完整 Typora | 自备（官网下载任意版本） |
 | **换电脑** | 整个文件夹拷过去就能用 | 重跑一次脚本 |
@@ -25,9 +25,10 @@
 ### 使用（就两步）
 
 1. **解压整个文件夹**到任意位置（建议非系统盘）
-2. **双击 `START-Typora.bat`** —— 启动 Typora，同时自动在桌面创建「Typora Green」图标
+2. **双击 `START-Typora.exe`** —— 启动 Typora，同时自动在桌面创建「Typora Green」图标
 
 以后启动：双击桌面上的「Typora Green」即可。
+（`START-Typora.bat` 是后备入口：万一 exe 被安全软件拦了，双击它效果一样。）
 
 ### 可选设置
 
@@ -106,8 +107,8 @@ Typora 启动约 8 分 50 秒后的概率性「二次校验」会无条件吊销
 **Q：激活后过几天又弹「试用期剩余 X 天」？**
 A：旧版脚本（v1.0.2 及更早）没拦截 Typora 自动更新，Typora 升级后补丁失效。**换 v1.0.5 绿色版**（推荐），或用 v1.0.5 脚本重跑一次。
 
-**Q：绿色版双击 START-Typora.bat 闪退？**
-A：确认解压完整（`app\resources` 子目录存在）；换个解压路径；检查杀毒软件是否拦截。
+**Q：绿色版双击 `START-Typora.exe` 闪退，或桌面没出现图标？**
+A：确认解压完整（`app\resources` 子目录存在）；换个解压路径；检查杀毒软件是否拦截。若 exe 被杀软删了，改用 `START-Typora.bat`；图标没建出来可以 `SETUP.bat` 选 1 手动建（启动器每次启动也会自动自检补建）。
 
 **Q：打开方式列表里没有 Typora Green？**
 A：弹窗点「更多选项」→「在这台电脑上查找其他应用」→ 手动选 `app\Typora.exe`，选一次以后就一直在。
@@ -116,6 +117,20 @@ A：弹窗点「更多选项」→「在这台电脑上查找其他应用」→ 
 A：绿色版已屏蔽自动更新。换新包：先 `SETUP.bat` 选 3 清理 → 删旧文件夹 → 解压新包。
 
 更多问题见压缩包内说明文档。
+
+---
+
+## 🛠️ 开发 / 自己构建
+
+想自己改代码、自己造绿色版或脚本版发行包、或者遇到激活问题要排错 —— 见 **[DOC/](DOC/)**：
+
+| 文档 | 内容 |
+|---|---|
+| [DOC/BUILD-GREEN.md](DOC/BUILD-GREEN.md) | 从零构建绿色版（打包规则、启动器编译、自查清单） |
+| [DOC/BUILD-SCRIPT.md](DOC/BUILD-SCRIPT.md) | 配脚本版发行包 |
+| [DOC/LAUNCHER.md](DOC/LAUNCHER.md) | 启动器开发与测试矩阵 |
+| [DOC/RELEASE.md](DOC/RELEASE.md) | 发版与上传流程 |
+| [DOC/TROUBLESHOOTING.md](DOC/TROUBLESHOOTING.md) | 排错手册（含「模拟换一台电脑」自测法） |
 
 ---
 
