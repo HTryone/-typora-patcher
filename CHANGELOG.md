@@ -8,6 +8,46 @@
 
 ---
 
+## [1.0.6] - 未发布
+
+### 修复
+- **绿色版换机器必回「未激活 + 15 天试用」（issue #2 用户实测）—— 根因是 fingerprint 覆盖的时序竞态**
+  - **现象**：别人机器上解压绿色版、双击 `START-Typora.bat`，始终未激活；日志里 `SLicense` 有值、`pure = undefined` 之后直接 `no info` → `onUnfillLicense`，而 `[machineCode] <本机指纹>` 这一行出现在 `no info` **之后**。
+  - **根因**：`license.machineCode` 是**异步**处理器（返回 Promise），Typora 的首次许可校验却是**同步**取 fingerprint 的。v1.0.5 只在 5 个 hook 里临时调一次 `__getRealFp()`，永远慢半拍 —— 实体构建时 `__realFp` 仍是 null，只能用「打包时烘焙进文件的指纹」，于是**只有打包机（烘焙值＝本机值）能通过**，换机器必然 `no info`。
+  - **对照实验**（本机、全新 profile）：只把烘焙指纹改成假值 `AAAAAAAAAA`，立刻复现用户那种 `pure = undefined → no info → onUnfillLicense`，且 `[machineCode]` 在 35 行之后才出现 —— 与系统/环境无关，纯时序问题。
+  - **修复**（`getInsertCode` 注入模板）：
+    1. `const electron = require("electron")` 之后新增 `__warmRealFp()`：在 jsc 加载前就每 8ms 轮询，`license.machineCode` 一注册就立刻取本机指纹并缓存（实测 70–80ms 就位，首次校验在 250–310ms，稳赢）；
+    2. 取到后把指纹写入 `HKCU\Software\Typora\MFp`，之后每次启动**同步命中**缓存，彻底消除竞态（指纹跨机器固定、跨版本稳定）；
+    3. 原 `__getRealFp()` 懒取路径保留作兜底。
+  - **验证**（本机三种场景，以 `typora.log` 为准）：
+    - 烘焙指纹改假 + 全新 profile + 无缓存 → `handle license.machineCode`(75ms) → `[machineCode]`(79ms) → `renew` → **`[L] pass`**；
+    - 烘焙指纹与 deviceId **同时**改成别人机器的值（`AAAAAAAAAA` / `OTHERS-PC`）+ 全新 profile + 无缓存 → **`[L] pass`**（再次确认 deviceId 不参与比对）；
+    - 真实路径（`START-Typora.bat` + 本机 profile，走注册表缓存）→ **`[L] pass`**。
+
+### 修复（绿色版启动器）
+- **`START-Typora.bat` 首次运行不建快捷方式**：原来用「包内是否存在 `Typora Green.lnk`」判断首次运行，而这个 .lnk 正是打包前本地跑一次留下的、会随包发行 → 用户机永远跳过建快捷方式的分支（与 issue #2 用户「桌面无快捷方式、`SETUP.bat` 反而能建」完全吻合）。改为用包**外**标记 `%LOCALAPPDATA%\TyporaGreen.setup-done` 判断，并在 PowerShell 失败时提示改用 `SETUP.bat`。
+
+### 改动（绿色版启动器换成编译版 exe）
+- **新增 `START-Typora.exe`**：用系统自带 .NET Framework 4.x 的 `csc.exe` 编译（源码 `scripts/launcher/Program.cs`，构建脚本 `scripts/build-launcher.sh`），**产物 6.5KB、零额外依赖**，Win10/11 直接可跑。
+  - 旧的 `START-Typora.bat` 是「.bat 里塞一长串内联 PowerShell」：引号、`%` 展开、`&|()` 转义、编码四件事一起踩，而且失败还是静默的（本次「用户机不建快捷方式」就是这么跳过去的）。
+  - exe 改用 `WScript.Shell` COM 直接建 `.lnk`，**不受 PowerShell 执行策略、也不受「压缩包解压带网络标记（MOTW）」影响**；桌面路径按注册表 `User Shell Folders` 解析（兼容桌面被重定向到 `D:\desktop` 这类情况）；出错用 MessageBox 明确弹出，不再静默。
+  - `START-Typora.bat` 保留作后备入口（应对 exe 被安全软件误杀的情况）；它按「标记不存在才建快捷方式」处理，exe 那套自检逻辑它没有。
+  - **快捷方式自愈**：标记做成三态 —— 不存在 = 首次运行；`done` = 已装；`removed` = 用户在 `SETUP.bat` 选过 3（Remove everything）。`done` 状态下每次启动都自检两处快捷方式：**文件被删了、或 target 指向的不是当前这个包（文件夹被挪走），就自动补建 / 改成新路径**，不用手动折腾。`SETUP.bat` 的 3 号选项随之补一行写入 `removed`，否则启动器会把刚删掉的图标又建回来。
+  - **实测矩阵**（本机，日志/快捷方式 target 为准）：① 无标记无快捷方式 → 两处都建、标记写 `done`；② 标记 `done` 但桌面 .lnk 被删 → 自动补建；③ 整个包目录改名 → 两处快捷方式自动改指新路径；④ 标记 `removed` → 一处都不建（尊重「Remove everything」）；⑤ 真实包跑一遍 → `[L] pass`，两处快捷方式指向正确。
+
+### 改动文件
+| 文件 | 改动 |
+|------|------|
+| `typora_crack.js` | 注入模板 +37 行：`__warmRealFp` 预热轮询 + 注册表缓存 `MFp` |
+| `scripts/launcher/Program.cs`（新） | 绿色版启动器源码（C#，.NET Framework 4.x，仅用系统库） |
+| `scripts/build-launcher.sh`（新） | 构建脚本：`bash scripts/build-launcher.sh` → `green-test/START-Typora.exe` |
+| `green-test/START-Typora.exe`（新，不进 git） | 编译版启动器，6.5KB |
+| `green-test/START-Typora.bat` | 保留为后备入口；首次运行判断改用包外标记 |
+| `green-test/app/resources/app/launch.dist.js`（不进 git） | 绿色版成品注入文件重新生成（含上述修复） |
+| `green-test/README-先看我.txt`、`green-test/使用说明.md` | 入口改为 `START-Typora.exe`，说明后备入口与误报处置 |
+
+---
+
 ## [1.0.5] - 2026-10-23
 
 ### 新增

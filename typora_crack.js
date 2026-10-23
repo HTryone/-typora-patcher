@@ -467,6 +467,51 @@ function __getRealFp() {
 }
 
 const electron = require("electron");
+// 【v1.0.6 修复·关键】机器码是"异步"查出来的（handler 返回 Promise），而 license 校验是
+// 同步取 fingerprint 的。原来只在 hook 里临时调一次，永远慢半拍：实体构建时 __realFp 还是
+// null，于是只能用烘焙在文件里的旧指纹 —— 只有构建机（烘焙值正好等于本机值）能通过，
+// 换任何机器都会解出 no info → onUnfillLicense → 回试用 15 天（issue #2 用户实测）。
+// 对策：① 在 jsc 加载前就开轮询预热，handler 一注册就把真指纹查出来缓存，赶在首次校验前就位；
+//       ② 查到后落一份到注册表，之后每次启动同步命中（指纹跨机器固定、跨版本稳定），彻底消除竞态。
+const __FP_KEY = "HKCU\\Software\\Typora";
+const __FP_VALUE = "MFp";
+function __fpExec(cmd) {
+    try {
+        const { execSync } = require("child_process");
+        return execSync(cmd, { windowsHide: true, encoding: "utf8" });
+    } catch (e) { return ""; }
+}
+if (process.platform === "win32") {
+    const cached = __fpExec('reg query "' + __FP_KEY + '" /v ' + __FP_VALUE).match(/MFp\s+REG_SZ\s+(\S+)/);
+    if (cached && cached[1]) __realFp = cached[1];
+}
+(function __warmRealFp() {
+    let tries = 0, called = false, done = false;
+    const timer = setInterval(function () {
+        tries++;
+        if (done || tries > 1200) { clearInterval(timer); return; }
+        try {
+            const h = electron.ipcMain && electron.ipcMain._invokeHandlers;
+            const fn = h && h.get && h.get("license.machineCode");
+            if (!fn || called) return;
+            called = true;
+            const ret = fn({ sender: { send: function(){}, isDestroyed: function(){ return true; } }, frameId: 0, processId: 0, reply: function(){} });
+            if (ret && typeof ret.then === "function") {
+                ret.then(function (mc) {
+                    try {
+                        const fp = JSON.parse(Buffer.from(mc, "base64").toString("utf8")).i;
+                        if (fp) {
+                            __realFp = fp;
+                            if (process.platform === "win32") __fpExec('reg add "' + __FP_KEY + '" /v ' + __FP_VALUE + ' /t REG_SZ /d "' + fp + '" /f');
+                        }
+                    } catch (e) {}
+                    done = true;
+                }).catch(function () { done = true; });
+            } else { done = true; }
+        } catch (e) {}
+    }, 8);
+    if (timer && timer.unref) timer.unref();
+})();
 // 【2nd 屏蔽】Typora 启动后约 530 秒触发一次 "2nd" 二次校验，其中约 20% 概率
 // 无条件吊销授权（该分支不读注册表，补写 SLicense 无效），运行中弹「试用 0 天」。
 // 拦截启动早期注册的、延迟在 8分40秒~9分05秒 之间的第一个定时器，使其永不触发。
