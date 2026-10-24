@@ -12,6 +12,7 @@
 | 改绿色版的启动器（那个 exe） | [LAUNCHER.md](LAUNCHER.md) |
 | 发版、上传、更新说明 | [RELEASE.md](RELEASE.md) |
 | 弹试用 / 激活失败，要排错 | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) |
+| 想知道「某一版 Typora 凭什么认为能改」、升级后要重查什么 | [COMPATIBILITY.md](COMPATIBILITY.md)（逐版本核查证据 + 尚未验证的项） |
 | 搞懂注入到底干了什么 | 仓库根 [TECHNICAL.md](../TECHNICAL.md)（较早，部分已过时）+ `typora_crack.js` 里的注释 + [CHANGELOG.md](../CHANGELOG.md)（每处修复都写了根因与验证） |
 
 ## 仓库结构
@@ -19,6 +20,8 @@
 ```
 typora_crack.js          补丁主脚本；注入模板（getInsertCode）就在里面
 start.bat                脚本版入口：自动找 Node，跑补丁脚本
+package.json             依赖清单（**已纳入版本跟踪**）
+package-lock.json        依赖锁定版本（**已纳入版本跟踪**）
 scripts/
   build-launcher.sh      编译绿色版启动器
   launcher/Program.cs    启动器源码（C#，只用 .NET Framework 自带库）
@@ -28,6 +31,8 @@ TECHNICAL.md             注入原理（历史文档）
 ```
 
 不进仓库（`.gitignore`）：`node_modules/`、`fax/`（本地发行母本）、`green-test/`（绿色版成品目录）、`*.7z`。
+
+> **依赖清单要跟着改**：`package.json` / `package-lock.json` 是**源码的一部分**，换依赖、升依赖都要一起提交，否则别人 clone 下来跑 `npm install` 会装到另一套版本（`@electron/fuses` 尤其敏感，它要求 Node ≥ 22.12）。脚本首次运行时的自动安装见 [TECHNICAL.md](../TECHNICAL.md)。
 
 ## 贡献约定
 

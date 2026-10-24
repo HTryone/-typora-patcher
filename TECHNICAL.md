@@ -6,15 +6,17 @@
 
 ## 依赖
 
-| 包名 | 版本 | 用途 |
+| 包名 | 版本（锁定） | 用途 |
 |---|---|---|
-| `asar` | latest | 解包/打包 Electron asar 归档 |
-| `chalk` | 4.x | 终端彩色输出（v4 支持 CommonJS） |
-| `readline-sync` | latest | 同步读取用户输入 |
-| `iconv-lite` | latest | GBK→UTF-8 编码转换（注册表输出解码） |
-| `@electron/fuses` | latest | 修改 Electron Fuses 配置 |
+| `asar` | 3.2.0 | 解包/打包 Electron asar 归档（上游已改名 `@electron/asar`，API 不变） |
+| `chalk` | 4.1.2 | 终端彩色输出（v4 支持 CommonJS，v5 是纯 ESM 用不了） |
+| `readline-sync` | 1.4.10 | 同步读取用户输入 |
+| `iconv-lite` | 0.7.2 | GBK→UTF-8 编码转换（注册表输出解码） |
+| `@electron/fuses` | 2.1.2 | 修改 Electron Fuses 配置（纯 ESM 包，要求 Node ≥ 22.12） |
 
-脚本首次运行时自动检测 `node_modules`，不存在则执行 `npm init -y` + `npm install`，完成后自动重启自身。
+`package.json` 与 `package-lock.json` **已纳入版本跟踪**，上面就是锁定的版本。
+
+脚本首次运行时检测 `node_modules`，不存在则 `npm install`（有 `package.json` 时按清单装，没有才先 `npm init -y`），完成后自动重启自身。
 
 ## 核心流程
 

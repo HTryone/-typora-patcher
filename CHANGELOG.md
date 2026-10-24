@@ -8,6 +8,37 @@
 
 ---
 
+## [未发布]
+
+### 变更
+- **依赖清单纳入版本跟踪**：`.gitignore` 不再忽略 `package.json` / `package-lock.json`。
+  - **原因**：这两个文件被忽略时，别人 clone 下来没有依赖清单，脚本首跑走的是 `npm install` 装**最新版**，装到什么算什么 —— 依赖会随上游漂移，而 `@electron/fuses` 是纯 ESM 包且要求 Node ≥ 22.12，漂一版就可能起不来。
+  - **锁定值**：`asar 3.2.0`、`chalk 4.1.2`、`readline-sync 1.4.10`、`iconv-lite 0.7.2`、`@electron/fuses 2.1.2`（与本地 `node_modules` 实际版本逐一核对一致）。
+  - `package.json` 同时收拾了元信息：`name` 改 `typora-patcher`、`version` 对齐发行号 `1.0.6`、`description` 换成一句真描述（原值是误粘的 README 段落）、补 `engines.node >= 22.12.0`、`scripts.check`。
+
+### 文档
+- **新增 [DOC/COMPATIBILITY.md](DOC/COMPATIBILITY.md)**：逐版本的**核查证据**文档，与 [DOC/VERSIONS.md](DOC/VERSIONS.md)（哪版改了什么）分工不重叠。内容为 1.14.10 实测：
+  - `app.asar` 头解析结果、3 个文件的 offset / 大小 / SHA256（与头里 `integrity.hash` 逐一核对一致，证明是官方原件）；
+  - 注入点正则首个命中 `require("module");` 在 char 98、插入点 116，注入块解析通过、51 个顶层名无重名、注入点早于 jsc 加载；
+  - fuses 9 位逐位表：`001001011` → `001000011`，**只有 `OnlyLoadAppFromAsar` 一位变了**；`EnableEmbeddedAsarIntegrityValidation = 0` 是这条路能走的前提；
+  - 授权链路字符串偏移表（`publicDecrypt` 89618、`api/client/activate` 117994、`2nd ` 97594、`[L] pass~` 108382 等）；
+  - 机器码字段实测：本机 1.14.10 仍是 `{v,i,l}`，**不支持**「1.14.10 改成了 `{v,l,f,u}`」的说法；
+  - **「尚未验证的项」一节**：`2nd` 是否仍固定在约 530 秒、拦截区间是否仍准、自动更新拦截是否真生效 —— 本机日志里 `2nd` 出现 0 次、最长单次会话只有 191 秒、补丁后的会话分别只持续 6 秒和 9 秒，够不到验证窗口，如实记为未验证并写明怎么补。
+- **`DOC/README.md`**：按需求读表加 COMPATIBILITY 一行；仓库结构补 `package.json` / `package-lock.json`，并写明依赖清单要跟着改。
+- **`TECHNICAL.md`**：依赖表从「latest」改为锁定版本，补 `asar` 弃用提示、`chalk` v4/v5 差异、`@electron/fuses` 的 Node 下限。
+
+### 改动文件
+| 文件 | 改动 |
+|------|------|
+| `.gitignore` | 删掉 `package-lock.json`、`package.json` 两行 |
+| `package.json` | 元信息收拾 + 新增 `engines` / `scripts.check`（**新增跟踪**） |
+| `package-lock.json` | 按新元信息重生成，依赖版本不变（**新增跟踪**） |
+| `DOC/COMPATIBILITY.md` | 新增 |
+| `DOC/README.md` | 读表与结构各加一行 |
+| `TECHNICAL.md` | 依赖表改锁定版本 |
+
+---
+
 ## [1.0.6] - 2026-10-24
 
 ### 修复
