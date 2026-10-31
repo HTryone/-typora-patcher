@@ -13,6 +13,7 @@
 | 发版、上传、更新说明 | [RELEASE.md](RELEASE.md) |
 | 弹试用 / 激活失败，要排错 | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) |
 | 想知道「某一版 Typora 凭什么认为能改」、升级后要重查什么 | [COMPATIBILITY.md](COMPATIBILITY.md)（逐版本核查证据 + 尚未验证的项） |
+| 想看 1.14.10 授权链路的**完整逆向**（验签/续期/指纹/密钥存放） | [REVERSE-1.14.10/](REVERSE-1.14.10/REVERSE-1.14.10.md)（含分析脚本与全量字符串表存档） |
 | 搞懂注入到底干了什么 | 仓库根 [TECHNICAL.md](../TECHNICAL.md)（较早，部分已过时）+ `typora_crack.js` 里的注释 + [CHANGELOG.md](../CHANGELOG.md)（每处修复都写了根因与验证） |
 
 ## 仓库结构
@@ -22,10 +23,12 @@ typora_crack.js          补丁主脚本；注入模板（getInsertCode）就在
 start.bat                脚本版入口：自动找 Node，跑补丁脚本
 package.json             依赖清单（**已纳入版本跟踪**）
 package-lock.json        依赖锁定版本（**已纳入版本跟踪**）
+typoraGO/                Go 版激活工具（图形界面；详见其 README）
 scripts/
   build-launcher.sh      编译绿色版启动器
   launcher/Program.cs    启动器源码（C#，只用 .NET Framework 自带库）
-DOC/                     本文档目录
+DOC/
+  REVERSE-1.14.10/       1.14.10 授权链路逆向报告 + 分析脚本 + 字符串表存档
 CHANGELOG.md             版本变更 + 根因 + 验证记录（最有信息量的一篇）
 TECHNICAL.md             注入原理（历史文档）
 ```

@@ -1,0 +1,1859 @@
+__dirname
+__webpack_modules__
+__webpack_module_cache__
+__webpack_require__
+evalmachine.<anonymous>
+updateTheme
+curTheme
+execInAll
+4Pk2/V<'
+window.ClientCommand && File.setTheme('
+(^|-|_)(\w)
+getApplicationMenu
+\addNewMarkdown
+writeFileSync
+REG IMPORT "
+stdout: }
+BrowserWindow
+platform
+getRecentFolders
+Recent Locations
+iconPath
+explorer.exe
+iconIndex
+execPath
+setAppUserModelId
+abnerworks.Typora
+setJumpList
+loadDict
+bindJumplist
+shell.saveItem
+writeFile
+shell.openItem
+openPath
+shell.trashItem
+trashItem
+shell.openExternal
+about:blank
+openExternalj
+shell.showItemInFolder
+showItemInFoldern 
+shell.showDownload
+fromWebContents
+download
+dialog.showMessageBox
+showMessageBox
+dialog.showSaveDialog
+showSaveDialog
+dialog.showOpenDialog
+showOpenDialog
+dialog.showOpenDialogAlone
+nativeImage
+createFromDataURL
+createFromPath
+createFromBuffer
+toBitmap
+clipboard.readTextSync
+clipboard
+readTextE
+returnValue
+clipboard.readHTMLSync
+readHTMLE
+clipboard.readFilePaths
+readBuffer
+FileNameW
+\u0000+$E
+clipboard.readImage
+readImage
+toDataURL
+clipboard.writeImage
+skipTaskbar
+Print PDF Preview
+webPreferences
+webSecurity
+allowRunningInsecureContent
+nodeIntegration
+disableDialogs
+directWrite
+disableBlinkFeatures
+FontSystemFallbackNotoCjk
+defaultFontFamily
+zoomFactor
+backgroundThrottlingD
+load file [
+] for PDF export
+loadFile
+tempPath
+tmp.html
+write output to temp file [
+outputFile
+Timeout for loading print view
+export.genPrintView
+isDestroyed
+export.destroyPrintView
+export.getPageColor
+generate print preview window with id 
+printWin
+webContents
+executeJavaScript
+window.getComputedStyle(document.body).backgroundColor
+export.print
+export.print failed: 
+no valid printers available
+window.print()
+skipCleanUp
+getPanelString
+export.printToPDF
+taskLabel
+generate print window with id [
+printToPDF
+got PDF data
+printToPDF failed [
+(function getStyleFunc(){
+  let dom = document.querySelector('#write');
+  if(!dom) return null;
+  dom.style.backgroundColor = "transparent";
+  let style = window.getComputedStyle(dom);
+  return {
+    color: style.color,
+    fontFamily: style.fontFamily,
+    bgColor: window.getComputedStyle(document.body).backgroundColor,
+get background color
+export.prepareImageCapture
+getPrimaryDisplay
+scaleFactor
+workArea
+imageWidth
+useContentSize
+enableLargerThanScreen
+alwaysOnTop
+minimizable
+closableC
+devToolsD
+allowDisplayingInsecureContent
+safeDialogs
+offscreen
+deviceScaleFactor
+file:///
+window.innerHeight
+document.body.parentElement.scrollTop = document.body.clientHeight;
+Math.max(document.body.clientHeight, document.body.parentElement.scrollHeight)
+totalHeight
+pageHeight
+export.captureImage
+setContentSize
+document.body.parentElement.scrollTop = {d}; document.body.parentElement.scrollHeight;
+capturePage
+newScrollHeight
+url.request
+redirect
+response
+statusCode
+content-type
+page.screenshot
+controller.screenshotHTML
+clipboard.write
+pandoc.import
+["'\\\b\t\n\f\r]
+openFile
+syncAndPrepOnly
+activeWindow
+isLoading
+did-finish-load
+properties
+getMenuDict
+extensions
+TeX/LaTeX
+reStructuredText
+org-mode
+dokuwiki
+mediawiki
+All Supported Formats
+filePaths
+window.getSelection().removeAllRanges();ClientCommand.doImport("
+pandoc.version
+pandoc.setVersion
+nativeTheme
+useDarkThemeBefore
+useDarkThemet
+theme.apply
+theme.setThemeSource
+themeSource
+useSeparateDarkThemet
+startDrag
+createEmpty
+ondragstart 
+registry.addOpenInTypora
+createKey
+Software\Classes\Directory\shell\Typora\command
+setValueSZ
+closeKey
+Software\Classes\Directory\shell\Typora
+Open in Typora
+Software\Classes\Directory\Background\shell\Typora\command
+Software\Classes\Directory\Background\shell\Typora
+registry.removeOpenInTypora
+deleteTree
+registry.addNewMarkdown
+Windows Registry Editor Version 5.00
+  [HKEY_CLASSES_ROOT\.md]
+  @="markdown"
+  [HKEY_CLASSES_ROOT\.md\ShellNew]
+  "NullFile"=""
+  [HKEY_CLASSES_ROOT\.md\markdown\ShellNew]
+  "NullFile"=""
+  [HKEY_CLASSES_ROOT\markdown]
+Markdown File
+  [HKEY_CLASSES_ROOT\markdown]
+  "DefaultIcon"="
+resourcesPath
+\assets\file.ico"
+Please try sign out Windows to take effect.
+registry.removeNewMarkdown
+Windows Registry Editor Version 5.00
+  [HKEY_CLASSES_ROOT\.md]
+  [-HKEY_CLASSES_ROOT\.md\ShellNew]
+  [-HKEY_CLASSES_ROOT\.md\markdown\ShellNew]
+  [-HKEY_CLASSES_ROOT\markdown]
+Operation Failed
+Check updates automatically
+Skip This Version
+Remind Me Later
+Download Update
+New version available.
+Latest version is $1, your version is $2
+You're up to date!
+Check Update Failed
+Download failed
+Install Updates ?
+Quit and Install
+Download
+This dev version of Typora is expired, please download and install a newer version.
+This device has been deactivated
+Typora is now deactivated
+UNREGISTERED
+initDict
+getLocaleFolder
+readJSON
+Execute js {
+} on every window failed 
+powerMonitor
+doc.syncChange
+documentController
+getDocumentFromWindowId
+syncChange
+scheduleFullContentSync
+lastSync
+backupState
+setContent
+getContent
+switchToUntitled
+window.clientHandlerOnPresentationMoved()
+path2doc
+name2docs
+removeRecentDocument
+forceCloseFromPath
+solveDuplicateName_
+addRecentDocument
+shouldSaveSnap
+File.editor.applyChange(
+fromSourceMode
+srcContent
+enterOversize
+File.tryEnterOversize('', true, true)
+setLastSync
+setActiveWindow
+focusedWindow
+switching windows from same document
+window.onWindowResignForNode && window.onWindowResignForNode()
+window.onWindowFocusForNode && window.onWindowFocusForNode(
+window.onWindowFocusForNode && window.onWindowFocusForNode(true, 
+saveFromUntitled
+shouldReadFromDisk
+isSnapValid
+changeCounter
+curState
+textbundle
+textFile
+lastSync 
+, timestamp 
+, mtime 
+snap is not valid 
+getWindowToFocus
+syncFullContent
+inSourceModem
+File.sync(false, true);1;
+File.editor.applyFullContent(
+popBackupState
+basenameh
+isCaseInsensitive
+documents
+frozenDocs
+watchSystemPauset
+whenReady
+setContentForWindow
+File.FileInfoPanel.onFilePathUpdated();
+makeWindow
+initMountFolder
+mountFolder
+pinFolder
+silentOpenFailure
+showSidebar
+initFilePath
+initAnchor
+addWindowToDocument_
+getDocument
+prepWindow
+displayNow
+forceCreateWindow
+File.editor && File.editor.tryOpenUrl('
+recallDoc
+addBackup
+removeWindow
+removeBackup
+removeDocument
+window.File && File.backupDocumentSnap && File.backupDocumentSnap()
+frozenDoc
+hasDuplicateName
+switchDocument
+switchDocument 
+setEncoding
+==read==
+File.reloadContent(
+document.switchToUntitled
+getDocumentController
+document.setLastSync
+document.syncFullContent
+document.getContent
+document.currentPath
+hasUnsaved
+load from recover content length: 
+filePath
+windowCounts
+document.loadData
+handle document.loadData
+document.loadData 
+document.switchDocument
+cannotContinueUse
+showLicensePaneli
+document.rename
+document.setContent
+document.addSnap
+document.addSnapAndLastSync
+document.shouldSaveSnap
+document.getSnap
+document.getSnapWithValidation
+document.enterOversize
+document.newWindow
+restoreWhenLaunch
+document.checkIfMoveOnSave
+document.hasDuplicateName
+document.noOtherWindow
+(\..)(.+)$
+onSuccess
+downloadURL
+displayOption
+progressBar
+downloadItemo
+indeterminate
+initialValue`
+maxValue`
+closeOnComplete
+abortOnErrorD
+browserWindow
+contextIsolationD
+setCompleted
+ensureDir
+[downloader] downloading 
+showBadge
+directory
+filename
+onProgress
+onStarted
+onCancel
+processOnComplete
+transferredBytes
+totalBytes
+start downloading 
+canceled downloading 
+error downloading 
+t_workingDir
+getVersion
+-([a-z]+)
+devVersion
+env.info
+PRODUCTION_MODE
+DEBUG_MODE
+compareVersion
+clearUndo
+hasUndo_
+undoFrom_
+undoLabel
+undoLabel_
+registerUndo
+showErrorBox
+getFocusPath
+performUndo
+defaultId
+cancelId`
+defaultPath
+showOverwriteConfirmation
+existsSync
+sendEvent
+willRename
+copyFile
+didRename
+updateQuickOpenCache
+filesOp.registerUndo
+filesOp.clearUndo
+filesOp.performUndo
+filesOp.getFocusPath
+filesOp.undoLabel
+native-reg
+Software\Typora
+getValue
+[WindowsLicenseLocalStore] 
+txxxx-xxxx-xxxxy
+createHash
+readFile
+publicDecrypt
+jsDecrypt
+A required module cannot be loaded by Typora
+Please check if that file exists or reinstall Typora to fix.
+OUT_OF_LIMIT`
+INVALIDATE
+WRONG_USER
+https://store.typora.io
+pure js failed 
+fingerprint
+failCounts
+lastRetry
+writeInstallDate fromBTime=
+userData
+/profile.data
+birthtime
+[writeInstallDate] 
+prepDatabase
+getState
+LOCAL_MACHINE
+SOFTWARE\Microsoft\Cryptography
+WOW64_64KEY
+MachineGuid
+machineId
+originalC
+[watch L]
+[watch L] hasL: 
+request 
+no-cache
+Content-Type
+application/json
+Cache-Control
+getUserLocale
+useMirrorInCN
+request to typoraio.cn
+https://typoraio.cn/store/
+deactivate
+deviceId
+[renewLicense] license renewed in 12h
+generateUUID
+[renewLicense]: 
+[renewL]: unfill due to renew fail
+[renewLicense]: license renewed
+Failed to Renew L
+https://typoraio.cn/store
+statSync
+throwIfNoEntry
+trailRemains is 
+[L] Read from incorrupted InstallDate
+[L] installDate is 
+, trail remains: 
+[L] pass~@
+https://typora.io/#download
+1789097924022
+buildTime is 
+verInitTime is 
+inFirstShow
+B@FDR|BP64:0
+showPanelWindow
+page-dist/license.html?ecp=
+&dayRemains=
+&hasActivated=
+&license=
+&needLicense=
+preventDefault
+resetCount(5)
+setAlwaysOnTop
+page-dist/welcome.html?lang=
+L23456789ABCDEFGHJKMNPQRSTUVWXYZ
+^([A-Z0-9]{6}-){3}[A-Z0-9]{6}$
+invalid license pattern char
+[L23456789ABCDEFGHJKMNPQRSTUVWXYZ]
+contains illegal char
+checksum failed
+userInfo
+username
+COMPUTERNAME
+ | Windows
+scutil --get ComputerName
+ | darwin
+hostname~ 
+ | Linux
+Please input a valid license code
+^[^\s@'"/\\=?]+@[^\s@'"/\\]+\.[^\s@'"/\\]+$
+^[\s\u200b ]
+[\s\u200b ]$
+Please input a valid email address
+api/client/activate
+response is 
+[License] response code is 
+Your license has exceeded the max devices numbers.
+If you click "Continue Activation", this device will be activated and the oldest device will be unregistered automatically.
+Your license has exceeded the max devices numbers.
+The oldest device was unregistered automatically.
+This license code has been used with a different email address.
+WriteActivationInfoFail
+Failed to write your license to local machine
+[L] error from server 
+Unknown Error. Please contact hi@typora.io
+Failed to access the license server. Please check your network or try again later.
+license.machineCode
+handle license.machineCode
+[machineCode] 
+[L] validate server return empty
+[L] validate server return fail
+doDeactivation on unregistered device
+api/client/deactivate
+addLicense
+handle addLicense
+offlineActivation
+offline activation
+license.show (detail ? 
+license.show.debug
+openDevToolsh
+removeLicense
+handle removeLicense
+https://dian.typora.com.cn
+start LM in devVersion=
+re-write InstallDate
+dom-ready
+make-window
+getAllWindows
+try{document.querySelector(".
+").remove();}catch(e){};
+insertCSS
+(\{|\}|;)\n
+onUnfillLicense
+.typora-sourceview-on .
+left: 170px;
+position: fixed;
+    bottom: 2px;
+    z-index: 9999;
+    left: 70px;
+    font-size: 12px;
+    line-height: 24px;
+    background: rgb(120 120 120 / 30%);
+    padding: 0 12px;
+    color: var(--text-color);
+    border-radius: 4px;
+    cursor: pointer;
+.pin-outline .
+left:calc(var(--sidebar-width) + 70px);
+if(window.File.option){
+File.option.hasLicense = false; 
+File.megaMenu && File.megaMenu.forceReload();
+if(!document.querySelector(".
+const pos = Math.round(Math.random() * document.body.children.length);
+const dom = document.createElement("DIV");
+dom.style = "position: fixed !important;bottom: 2px !important; display: block !important; visibility: visible !important;opacity: 1 !important; height: auto !important; width: auto !important; z-index: 9999 !important;";
+dom.setAttribute("role", "button");
+dom.innerText="UNREGISTERED x";
+dom.innerText = "
+dom.classList.add("
+dom.addEventListener("click", () => {
+dom.remove();
+reqnode("electron").ipcRenderer.invoke(String.fromCharCode(108,105,99,101,110,115,101,46,115,104,111,119));
+document.body.insertBefore(dom, document.body.children[pos]);
+/package.json
+180dd4c7.5b58fa97
+/../page-dist/static/js/LicenseIndex.
+licenseWatched
+showWelcomePanel
+shouldShowWelcomePanel
+getHasLicense
+Unexpected end of ASN.1 data
+Indefinite length not supported
+ASN.1 length too large
+Expected SEQUENCE
+Expected AlgorithmIdentifier SEQUENCE
+Invalid AlgorithmIdentifier length
+Expected BIT STRING
+Unexpected end of BIT STRING
+Expected inner SEQUENCE
+Expected INTEGER for modulus
+Invalid modulus length
+Expected INTEGER for exponent
+Invalid exponent length
+Empty modulus
+Empty exponent
+Invalid padding: data too short
+Invalid padding: missing leading zero
+Invalid padding: invalid padding type
+Invalid PKCS#1 padding: missing separator
+Invalid PKCS#1 padding: insufficient padding
+Invalid modulus
+Invalid exponentH
+Input buffer too large for key size
+Message larger than modulus
+dec failed: 
+ensureFile
+failed to create log file
+createWriteStream
+/typora.log
+prepDatabase 
+serialize
+deserialize
+typora-dictionaries
+-LICENSE
+MenuItem
+allThemes
+saveTimer
+downloadingDicts
+analyticsEvents
+supportTextBundle
+supportTextPack
+initUserConfig_
+logStream
+closeLogging
+recentDocument
+getRecentDocuments
+recentFolder
+framelessWindow
+getAllThemes
+noRecentFiles
+setRecentFolders
+refreshMenu
+resizeRecentFolder
+addRecentFolder
+removeRecentFolder
+pinRecentFolder
+unpinRecentFolder
+renameRecentDocuments
+recentFolders
+recentFiles
+clearRecentDocuments
+askForClearRecentDocuments
+question
+checkboxLabel
+Also clear pinned folders
+checkboxChecked
+normalizeAccessKeys
+Clear Recent Folders and Files
+getLocale
+https://support.typoraio.cn/#recent-files--folders
+https://support.typora.io/File-Management/#recent-files--folders
+checkbox
+forceRefreshMenu
+window.File && File.setTheme('
+setCurTheme
+setApplicationMenu
+refreshThemeMenu
+xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+([^\\\/\s]+[\\\/]){3,}[^\s'"]+['"]*
+{filepath}
+[^\s."'{]+\.(md|mmd|markdown|mdwn|txt|text)
+http://typora-app/atom/
+^\/atom(\.asar)?\/
+stacktrace
+atom.asar
+traceDeprecation
+traceProcessWarnings
+noDeprecation
+initSetting
+^[^\/\sA-Z]+\.css$
+\.user\.css
+isDarkMode
+overwriteThemeFolder
+ensureDirSync
+github.css
+newsprint.css
+night.css
+pixyll.css
+white.css
+renameSync
+copySync
+overwrite
+cleanupOlderCache
+blob_storage
+Code Cache
+databases
+GPUCache
+IndexedDB
+Local Storage
+Session Storage
+shared_proto_db
+VideoDecodeStats
+DawnCache
+Local State
+Cookies-journal
+Network Persistent State
+Preferences
+QuotaManager
+QuotaManager-journal
+TransportSecurity
+recursive
+maxRetries
+profile.data
+history.data
+initialize_ver
+setDefaultFonts_
+line_ending_crlf
+preLinebreakOnExport
+launchFromDiffVersion, pre version is 
+addAnalyticsEvent
+updateLocation
+didShowWelcomePanel2
+/style/themes
+/old-themes
+/conf.default.json
+/conf/conf.default.json
+/conf/conf.user.json
+strict_mode
+copy_markdown_by_default
+noHintForOpenLink
+initDictionary_
+upgradeApp
+downgradeApp
+newInstall
+readFileSync
+[\u200b]E
+[warn] cannot parse user config, use the default one
+commandLine
+appendSwitch
+disable-gpu
+Disable GPU Acceleration
+disableHardwareAcceleration
+sansSerif
+Noto Serif CJK SC
+Noto Sans CJK SC
+userLanguage
+ms-Latn-MY
+locales/
+Word (.docx)
+OpenOffice
+Media Wiki
+loadCustomExports
+customExport
+exportSettingFor
+export.general
+[RenderProcess 
+setting.loadExports
+html-plain
+export.recordLastExport
+updateMenu
+lastExport
+File.option._lastExport = 
+setting.getDownloadingDicts
+setting.getUserDictionaryPath
+getUserDictionaryPath
+setting.getUserDict
+userDicti
+setting.downloadDict
+downloadDict
+setting.getThemes
+setting.setCurTheme
+setting.resetAdvancedSettings
+logger.error
+][Error] 
+logger.warn
+][Warn] m 
+setting.askForClearRecentDocuments
+setting.removeRecentFolder
+setting.removeRecentDocument
+setting.addRecentFolder
+setting.getRecentFiles
+setting.updateRecentFile
+setting.updateRecentFile 
+setting.put
+setting.get
+setting.fetchAnalytics
+setting.loadAll
+buildOption
+setting.getUnsavedDraftsPath
+getUnsavedDraftPath
+draftsRecover
+ENOTFOUND
+ETIMEDOUT
+ECONNRESET
+net::ERR
+Uncaught Exception:
+Learn Data Recovery
+A JavaScript error occurred in the main process
+typoraio.cn
+typora.io
+https://support.
+/Version-Control/
+unhandledRejection
+unhandledRejection 
+userDictionaryPath
+https://dict.typora.io/
+dict-download-start
+dict-download-err
+[downloadDict] downloading 
+Dowbload Cancelled
+dict-download-process
+dict-download-end
+/LICENSE
+node_modules
+spellchecker
+hunspell_dictionaries
+pathExists
+dict-loaded
+/user-dict.json
+no userDictionaryPath found
+user-dict.json not found
+user-dict-update}0
+user-dict-add
+user-dict-remove
+enable_inline_math
+enableInlineMath
+noLegacyMath
+gitlabMath
+noAutoLink
+enable_highlight
+enableHighlight
+enable_subscript
+enableSubscript
+enable_superscript
+enableSuperscript
+enable_diagram
+enableDiagram
+enableAlert
+copyMarkdownByDefault
+show_line_numbers_for_fence
+showLineNumbersForFence
+no_pairing_match
+noPairingMatch
+noEmojiAutoComplete
+zoomByMouse
+match_pari_markdown
+autoPairExtendSymbol
+auto_expand_block
+expandSimpleBlock
+heading_style
+headingStyle
+ul_style
+ol_style
+no_mid_caret
+scrollWithCursor
+auto_numbering_for_math
+autoNumberingForMath
+allowPhysicsConflict
+legacyInlineMathParse
+use_relative_path_for_img
+useRelativePathForImg
+relativePathWithDot
+allow_image_upload
+allowImageUpload
+image_save_location
+defaultImageStorage
+custom_image_save_location
+apply_image_move_for_web
+applyImageMoveForWeb
+no_image_move_for_local
+applyImageMoveForLocal
+preferCRLF
+sidebar_tab
+sidebarTab
+useTreeStyle
+strictMarkdown
+no_line_wrapping
+noLineWrapping
+prettyIndent
+SmartyPantsOnRendering
+convertSmartOnRender
+smartDash
+smartQuote
+twoHyphensToEm
+remapPunctuation
+remapUnicodePunctuation
+indentSize
+codeIndentSize
+enableAutoSave
+noUnsavedDraftsBackup
+save_file_on_switch
+saveFileOnSwitch
+preset_spell_check
+presetSpellCheck
+autoCorrectMisspell
+monocolorEmoji
+userQuotesArray
+passiveEvents
+can_collapse_outline_panel
+canCollapseOutlinePanel
+indentFirstLine
+hideBrAndLineBreak
+isFocusMode
+isTypeWriterMode
+ignoreLineBreak
+send_usage_info
+sendAnonymousUsage
+appVersion
+instance
+hasLicense
+userLocale
+appLocale
+sidebar-width
+sidebarWidth
+caseSensitive
+wholeWord
+useRegexp
+fileSearchCaseSensitive
+fileSearchWholeWord
+fileSearchUseRegexp
+wordCountDelimiter
+userPath
+USERPROFILE
+app.asar
+mainPath
+userDataPath
+\AppData\Local\Temp
+documentsPath
+useCustomFontSize
+customFontSize
+listNoGroup
+treeNoGroup
+listSortType
+treeSortType
+showHiddenFiles
+treeFileFilterMode
+treeFileFilterPatterns
+libraryFileFilterMode
+libraryFileFilterPatterns
+file_sort_type
+showStatusBar
+showToolbar
+customWordsPerMinute
+wordsPerMinute
+maxFetchCountOnFileList
+autoSaveTimer
+autoHideMenuBar
+searchService
+customZoom
+zoomLevel
+noMagnification
+autoEscapeImageURL
+getKeyAccelerator
+Move Column Left
+Alt+Left
+moveColLeftKey
+Move Column Right
+Alt+Right
+moveColRightKey
+Move Row Up
+moveRowUpKey
+Move Row Down
+Alt+Down
+moveRowDownKey
+Auto Indent Selected Code
+autoIndentKey
+shiftTabAutoIndent
+Paste as Plain Text
+mathFormatOnCopy
+image_uploader
+imageUploader
+custom_image_uploader
+customImageUploader
+picgo_app_path
+picgoAppPath
+piclistAppPath
+noWarnigUploadDisabled
+noWarnigForMoveFile
+noWarnigForMoveFileToList
+noWarnigForDeleteFile
+noWarnigForTypeWriterMode
+noHintForUnibody
+noWarnigForFocusMode
+noWarningForExportOverwrite
+noWarningForUpdateImageReference
+hasUpdates
+pandocPath
+defaultExtension
+defaultCodeLang
+defaultCodeLangOption
+actionWhenDropFile
+actionWhenDropFolder
+actionWhenDropImport
+buildTime
+_lastExport
+lineWiseCopyCut
+extraOption
+currentThemeFolder
+enableAutoUpdate
+autoUpdateToDev
+darkTheme
+setting.getExtraOption
+setting.doDownloadPicgo
+doDownloadPicgo
+setting.getKeyBinding
+keyBinding
+https://github.com/typora/PicGo-cli/releases/download/latest/%@.zip
+/_picgo.zip
+Finished
+shouldUseDarkColors
+getAllDisplays
+window.setTitle
+getTitle
+Untitled
+ - Typora
+setTitle}(
+window.focus
+window.setInSourceMode
+window.minimize
+window.close
+window.restore
+unmaximize
+setFullScreen
+_fullscreen
+window.maximize
+window.fullscreen
+isFullScreenn 
+window.setMenuBarVisibility
+setMenuBarVisibilityj 
+window.pin
+window.unpin
+window.updateMenuForIsAlwaysOnTop
+isAlwaysOnTop
+window.toggleDevTools
+isDevToolsOpened
+closeDevTools
+window.inspectElement
+inspectElement
+window.checkAsFocus
+isFocused
+currentFocusWindowIdl 
+controller.switchFolder
+switchFolderk 
+webContents.copy
+webContents.cut
+webContents.paste
+webContents.selectAll
+selectAll
+webContents.undo
+webContents.redo
+webContents.clearCache
+clearCache
+webContents.action
+window.enterFullscreen
+menuBarVisible
+window.exitFullscreen
+app.setZoom
+zoomLevel 
+setZoomLevel
+getZoomFactor
+ClientCommand.setZoomLevel(
+, true);{ 
+getBounds
+isMaximized
+maximized
+saveWindowBounds
+H"T"h"t+8
+makeWindowBoundsWithOffset
+4:T:d:xN
+will-navigate
+will-navigate to 
+setWindowOpenHandler
+^https?:
+render-process-gone
+render process is killed? 
+unresponsive
+webContents is unresponsive
+setMaxListeners
+document.body.classList.add("typora-maxmized");
+enter-full-screen
+document.body.classList.add("typora-maxmized");document.body.classList.add("typora-fullscreen");if(document.body.classList.contains("native-window")) {$("#ty-top-placeholder").show();};1;
+document.body.classList.remove("typora-maxmized");
+zoom-changed
+window.ClientCommand && ClientCommand.zoomIn();
+window.ClientCommand && ClientCommand.zoomOut();w
+session-end
+[win] session-end
+if(File.backupWindow){File.backupWindow(true);File.saveAndBackup()};1;
+leave-full-screen
+document.body.classList.remove("typora-maxmized");document.body.classList.remove("typora-fullscreen");$("#ty-top-placeholder").hide();1;
+[win] blur
+ready-to-show
+setZoomFactor
+getFocusedWindow
+lastClosedBounds
+minWidth` 
+minHeight
+disableAutoHideCursor
+backgroundColor
+fullscreenable
+enableRemoteModule
+webviewTag
+nodeIntegrationInWorker
+spellcheck
+additionalArguments
+--tyopt=
+/assets/icon/icon_256x256.png
+setBounds
+typora://app/typemark/window.html
+getDisplayMatching
+defaultFontSize
+releaseMode
+removeMenu
+typora://app/typemark/
+_useLowerCase
+putAccelerator 
+accelerator
+skipAccelerator
+Error when perform menu 
+globalShortcut
+openFileOrFolder
+curWindow
+Open Failed
+File or folder does not exist.
+Open Recent
+CmdOrCtrl+Shift+T
+Reopen Closed File
+reopenClosedf
+separator
+Clear Items
+No Recent Files
+\((.+)\)
+function(){File.reloadWithEncoding('
+CmdOrCtrl+N
+New Window
+CmdOrCtrl+Shift+N
+newWindow
+CmdOrCtrl+O
+openFolder
+CmdOrCtrl+P
+quickOpen
+Reopen with Encoding
+UTF-16 LE
+UTF-16 BE
+Western (windows-1252)
+Cyrillic (windows-1251)
+Cyrillic (ISO-8859-2)
+Cyrillic (IBM866)
+Cyrillic (IBM855)
+Cyrillic (KOI8-R)
+Cyrillic (MacCyrillic)
+Central European (windows-1250)
+Central European (ISO-8859-2)
+Greek (windows-1253)
+Greek (ISO-8859-7)
+Hebrew (windows-1255)
+Hebrew (ISO-8859-8)
+Chinese Simplified (GB2312)
+Chinese Simplified (GB18030)
+Chinese Traditional (Big5)
+Japanese (SHIFT_JIS)
+Japanese (EUC-JP)
+Korean (EUC-KR)
+Thai (TIS-620)
+Reload from Disk
+reloadFromDisk
+CmdOrCtrl+S
+CmdOrCtrl+Shift+S
+File.winShell().openProperties(File.bundle.filePath);
+openFileLocation
+Reveal in Sidebar
+function() {
+window.File.editor.library.revealInSidebar();
+File.trashSelf();
+Shift+Alt+P
+CmdOrCtrl+,
+togglePreferencePanel
+CmdOrCtrl+W
+CmdOrCtrl+X
+CmdOrCtrl+C
+CmdOrCtrl+V
+CmdOrCtrl+Z
+CmdOrCtrl+Y
+Copy Image Content
+File.editor.imgEdit.copyImage()
+Copy as Plain Text
+copyAsPlainText
+Copy as Markdown
+CmdOrCtrl+Shift+C
+copyAsMarkdown
+Copy as HTML Code
+copyAsHTMLSource
+Copy without Theme Styling
+copyAsSemanticHTML
+CmdOrCtrl+Shift+v
+pasteAsPlain
+Select All
+CmdOrCtrl+A
+Select Paragraph / Block
+CmdOrCtrl+Alt+P
+function() {
+File.editor.selection.selectBlock();
+Select Line / Sentence
+CmdOrCtrl+L
+function() {
+File.editor.selection.selectLine();
+Select Styled Scope
+CmdOrCtrl+E
+function() {
+File.editor.selection.selectPhrase();
+Select Word
+CmdOrCtrl+D
+function() {
+File.editor.selection.selectWord();
+Jump to Top
+Ctrl+Home
+function() {
+File.editor.selection.jumpTop();
+Jump to Selection
+CmdOrCtrl+j
+function() {
+File.editor.selection.jumpSelection();
+Jump to Bottom
+Ctrl+End
+function() {
+File.editor.selection.jumpBottom();
+Jump to Line Start
+function() {
+File.editor.selection.jumpToLineStart();
+Jump to Line End
+function() {
+File.editor.selection.jumpToLineEnd();
+Extend Selection to Top
+Ctrl+Shift+Home
+function() {
+File.editor.selection.jumpTop(true);
+Extend Selection to Bottom
+Ctrl+Shift+End
+function() {
+File.editor.selection.jumpBottom(true);
+Extend Selection to Line Start
+Shift+Home
+function() {
+File.editor.selection.extendToLineEdge(false);
+Extend Selection to Line End
+Shift+End
+function() {
+File.editor.selection.extendToLineEdge(true);
+function() {
+File.editor.UserOp.moveRowUpOrDown(true);
+LPq6sX_@
+function() {
+File.editor.UserOp.moveRowUpOrDown(false);
+function() {
+File.delete();
+Delete Range
+Delete Paragraph / Block
+Shift+CmdOrCtrl+Alt+P
+deleteBlock
+Delete Line / Sentence
+Shift+CmdOrCtrl+Alt+L
+deleteLine
+Delete Styled Scope
+Shift+CmdOrCtrl+Alt+E
+deleteScope
+Delete Word
+Shift+Ctrl+D
+deleteWord
+Math Tools
+Refresh All Math Expressions
+function() {
+File.editor.mathBlock.forceRefresh();
+Smart Punctuation
+Convert on Input
+File.megaMenu.setSmartyPantsTiming(
+Convert on Rendering
+Smart Quotes
+File.megaMenu.setSmartQuote(
+Smart Dashes
+File.megaMenu.setSmartDash(
+Remap Unicode Punctuation on Parse
+File.megaMenu.setRemapPunctuation(
+File.megaMenu.highlight('smart-punctuation-group');
+Line Endings
+Windows Line Endings (CRLF)
+function() {
+File.setLineEnding(true, true);
+Unix Line Endings (LF)
+function() {
+File.setLineEnding(false, true);
+Insert Final New Line On Save
+File.setFinalNewline(
+Whitespace and Line Breaks
+Indent first line of paragraphs
+function() {
+File.setIndentFirstLine(!File.option.indentFirstLine, true, true);
+Visible <br/>
+function() {
+File.setHideBrAndLineBreak(!File.option.hideBrAndLineBreak, true, true);
+Preserve single line break
+function() {
+File.setIgnoreLineBreak(!File.option.ignoreLineBreak, true, true);
+/Line-Break/s 
+File.editor.spellChecker && File.editor.spellChecker.show();i
+Find and Replace
+CmdOrCtrl+f
+function() {
+if(File.megaMenu.isPreferencePanelShown()) {
+File.megaMenu.searchOnPreferencePanel();
+} else {
+File.editor.searchPanel.showPanel();
+Find Next
+function() {
+File.editor.searchPanel.highlightNext();
+Find Previous
+Shift+F3
+function() {
+File.editor.searchPanel.highlightNext(true);
+function() {
+File.editor.searchPanel.showPanel(true);
+&Paragraph
+Heading 1
+function() {
+File.editor.stylize.changeBlock("header1", undefined, true);
+Heading 2
+function() {
+File.editor.stylize.changeBlock("header2", undefined, true);
+Heading 3
+function() {
+File.editor.stylize.changeBlock("header3", undefined, true);
+Heading 4
+function() {
+File.editor.stylize.changeBlock("header4", undefined, true);
+Heading 5
+function() {
+File.editor.stylize.changeBlock("header5", undefined, true);
+Heading 6
+function() {
+File.editor.stylize.changeBlock("header6", undefined, true);
+Paragraph
+function() {
+File.editor.stylize.changeBlock("paragraph");
+Increase Heading Level
+function() {
+File.editor.stylize.increaseHeaderLevel();
+Decrease Heading Level
+function() {
+File.editor.stylize.decreaseHeaderLevel();
+Insert Table
+function() {
+File.editor.tableEdit.insertTable();
+Add Row Above
+function() {
+File.editor.tableEdit.addRow(true);
+Add Row Below
+Ctrl+Return
+function() {
+File.editor.tableEdit.addRow(false);
+Add Column Before
+function() {
+File.editor.tableEdit.addCol(false);
+Add Column After
+function() {
+File.editor.tableEdit.moveColLeftOrRight(true);
+function() {
+File.editor.tableEdit.moveColLeftOrRight(false);
+Delete Row
+Shift+Ctrl+Backspace
+function() {
+File.editor.tableEdit.deleteRow();
+Delete Column
+function() {
+File.editor.tableEdit.deleteCol();
+Copy Table
+function() {
+File.editor.tableEdit.copyTable();
+Prettify Source Code
+function() {
+File.editor.tableEdit.reformatTable();
+Delete Table
+function() {
+File.editor.tableEdit.deleteTable();
+Math Block
+Ctrl+Shift+M
+function() {
+File.editor.stylize.toggleMathBlock();
+Code Fences
+Ctrl+Shift+K
+function() {
+File.editor.stylize.toggleFences();
+Code Tools
+Copy Code Content
+function() {
+File.editor.fences.copyContent();
+function() {
+File.editor.fences.formatContent(true);
+Auto Indent Whole Code
+function() {
+File.editor.fences.formatContent();
+Note Block
+function() {
+File.editor.stylize.toggleIndent("blockquote", undefined, "note");
+Tip Block
+function() {
+File.editor.stylize.toggleIndent("blockquote", undefined, "tip");
+Important Block
+function() {
+File.editor.stylize.toggleIndent("blockquote", undefined, "important");
+Warning Block
+function() {
+File.editor.stylize.toggleIndent("blockquote", undefined, "warning");
+Caution Block
+function() {
+File.editor.stylize.toggleIndent("blockquote", undefined, "caution");
+Ctrl+Shift+Q
+function() {
+File.editor.stylize.toggleIndent("blockquote");
+Ordered List
+Ctrl+Shift+[
+function() {
+File.editor.stylize.toggleIndent("ol");
+Unordered List
+Ctrl+Shift+]
+function() {
+File.editor.stylize.toggleIndent("ul");
+Task List
+Ctrl+Shift+X
+function() {
+File.editor.stylize.toggleIndent("tasklist");
+Task Status
+Toggle Task Status
+function() {
+File.editor.stylize.toggleTaskStatus();
+Mark as Complete
+function() {
+File.editor.stylize.toggleTaskStatus(true);
+Mark as Incomplete
+function() {
+File.editor.stylize.toggleTaskStatus(false);
+List Indentation
+CmdOrCtrl+]
+function() {
+File.editor.UserOp.moreIndent(File.editor);
+CmdOrCtrl+[
+function() {
+File.editor.UserOp.lessIndent(File.editor);
+Insert Paragraph Before
+function() {
+File.editor.UserOp.insertParagraph(true);
+Insert Paragraph After
+function() {
+File.editor.UserOp.insertParagraph(false);
+Link Reference
+function() {
+File.editor.stylize.insertBlock("def_link");
+Footnotes
+function() {
+File.editor.stylize.insertBlock("def_footnote");
+Horizontal Line
+function() {
+File.editor.stylize.insertBlock("hr");
+Table of Contents
+function() {
+File.editor.stylize.insertBlock("toc");
+YAML Front Matter
+function() {
+File.editor.stylize.insertMetaBlock();
+CmdOrCtrl+B
+function() {
+File.editor.stylize.toggleStyle("strong");
+Emphasis
+CmdOrCtrl+I
+function() {
+File.editor.stylize.toggleStyle("em");
+Underline
+CmdOrCtrl+U
+function() {
+File.editor.stylize.toggleStyle("underline");
+CmdOrCtrl+Shift+`
+function() {
+File.editor.stylize.toggleStyle("code");
+Inline Math
+function() {
+File.editor.stylize.toggleStyle("inline_math");
+Alt+Shift+5
+function() {
+File.editor.stylize.toggleStyle("del");
+function() {
+File.editor.stylize.toggleStyle("highlight");
+Superscript
+function() {
+File.editor.stylize.toggleStyle("superscript");
+Subscript
+function() {
+File.editor.stylize.toggleStyle("subscript");
+function() {
+File.editor.stylize.toggleStyle("comment");
+Hyperlink
+function() {
+File.editor.stylize.toggleStyle("link");
+Hyperlink Actions
+Open Link
+function() {
+File.editor.openCurrentLink();
+Copy Link Address
+function() {
+File.editor.copyCurrentLink();
+Insert Image
+CmdOrCtrl+Shift+I
+function() {
+File.editor.stylize.toggleStyle("image");
+function() {
+File.editor.imgEdit.insertLocalImage();
+function() {
+File.editor.imgEdit.revealInFinder();
+Zoom Image
+function() {
+File.editor.imgEdit.zoomAction(null, "25%");
+function() {
+File.editor.imgEdit.zoomAction(null, "33%");
+function() {
+File.editor.imgEdit.zoomAction(null, "50%");
+function() {
+File.editor.imgEdit.zoomAction(null, "67%");
+function() {
+File.editor.imgEdit.zoomAction(null, "80%");
+function() {
+File.editor.imgEdit.zoomAction(null, "100%");
+function() {
+File.editor.imgEdit.zoomAction(null, "150%");
+function() {
+File.editor.imgEdit.zoomAction(null, "200%");
+Switch Image Syntax
+Markdown Style
+function() {
+File.editor.imgEdit.switchPattern(null, false);
+HTML Style
+function() {
+File.editor.imgEdit.switchPattern(null, true);
+Delete Image File
+File.editor.imgEdit.deleteImageAction(true)
+function() {
+File.editor.imgEdit.copyToSelectedFolderAction();
+function() {
+File.editor.imgEdit.copyToSelectedFolderAction(true);
+Upload Image
+function() {
+File.editor.imgEdit.uploadAction();
+function() {
+File.editor.imgEdit.copyAllImages();
+function() {
+File.editor.imgEdit.moveAllImages();
+Upload All Local Images
+function() {
+File.editor.imgEdit.uploadAllImages();
+Reload All Images
+function() {
+File.editor.imgEdit.reloadAllByNode();
+When Insert Local Image
+function() {
+File.editor.imgEdit.toggleCopyToFolder();
+function() {
+File.editor.imgEdit.toggleUploadForFile();
+function() {
+File.editor.imgEdit.toggleUseImageRootPath();
+File.megaMenu.highlight('image-setting-group');
+Clear Format
+CmdOrCtrl+\
+function() {
+File.editor.stylize.clearStyle();
+Toggle Sidebar
+CmdOrCtrl+Shift+L
+function() {
+File.editor.library.toggleSidebar();
+CmdOrCtrl+Shift+1
+toggleOutline
+Articles
+CmdOrCtrl+Shift+2
+toggleFileList
+File Tree
+CmdOrCtrl+Shift+3
+toggleFileTree
+CmdOrCtrl+Shift+F
+globalSearch
+Source Code Mode
+CmdOrCtrl+/
+function() {
+File.toggleSourceMode();
+Readonly Mode
+function() {
+File.toggleReadonlyMode();
+Focus Mode
+function() {
+File.editor.toggleFocusMode();
+Typewriter Mode
+function() {
+File.editor.toggleTypeWriterMode();
+Show Status Bar
+toggleStatusBar
+toggleToolbar
+Toggle Word Count Popover
+toggleWordCount
+Toggle Fullscreen
+Always on Top
+function() {
+document.body.classList.toggle("always-on-top");
+Actual Size
+Ctrl+Shift+9
+Ctrl+Shift+0
+function() {
+ClientCommand.resetZoom();
+function() {
+ClientCommand.refreshViewMenu();
+Ctrl+Shift+=
+function() {
+ClientCommand.zoomIn();
+Zoom Out
+Ctrl+Shift+-
+function() {
+ClientCommand.zoomOut();
+Switch Between Opened Documents
+Ctrl+Tab
+Toggle DevTools
+Shift+F12
+ClientCommand.toggleDevTools()
+/What's-New/s 
+Quick Start
+/Docs/Quick Start.mdh
+Markdown Reference
+/Docs/Markdown Reference.md
+Install and Use Pandoc
+/Docs/Install and Use Pandoc.md
+Custom Themes
+/Docs/Custom Themes.md
+Use Images in Typora
+/Docs/Use Images in Typora.md
+Data Recovery and Version Control
+/Docs/Auto Save, Version Control and Recovery.mdh
+/Docs/Credits.mdh
+Change Log
+/Docs/Change Log.md
+Privacy Policy
+/Docs/Privacy Policy.md
+https://typoraio.cn
+https://typora.io
+Feedback
+mailto:hi@typora.io
+checkForUpdates
+function() {
+File.megaMenu.closePreferencePanel();
+if (document.body.classList.contains("native-window")) {
+$('.modal:not(.block-modal)').modal('hide');
+$("#about-dialog").modal('show');
+$("*:focus").blur();
+} else {
+File.megaMenu.show();
+$("#m-about").trigger("click");
+isEmojiPanelSupported
+Emoji and Symbols
+showEmojiPanel
+buildFromTemplate
+execForAll
+syncToPreference
+getAllWebContents
+cannot load dict as [
+^\s*function\s*\(
+window.File && (
+window.File && !File.blockUI && (
+!File.blockUI && window.ClientCommand['
+window.Reporter && window.Reporter.fullValidate();File.editor && File.editor.contextMenu && File.editor.contextMenu.hide();0;
+getItemCount
+\(\u200b*&[A-Z]\)
+setEnabled
+setHidden
+setState
+HTML (without styles)
+hasCustom
+Export with Previous
+Shift+Ctrl+E
+ClientCommand && ClientCommand.exportLast();i
+Export and Overwrite with Previous
+ClientCommand && ClientCommand.exportLast(true)
+File.megaMenu.highlight('export-setting-group');i
+Electronx(
+\"d"l"x"p*x
+data.accelerator :
+newItem.accelerator c
+menu.updateMenu
+menu.updateCustomZoom
+menu.refreshThemeMenu
+menu.reloadExportMenu
+menu.popup
+bindMainMenu
+EventEmitter
+initUpdater
+updater/updater.html?curVersion=$1&newVersion=$2&labels=$3&enableAutoUpdate=$4&releaseNoteLink=$5&hideAutoUpdates=$6
+showDetailWindow
+cancelUpdate
+\.[^.]+$E
+alternatives
+https://
+/releases/dev_windows_
+/releases/windows_
+checkForUpdates 
+checking-for-update
+update-not-available
+invalid status code: 
+Failed to check updates, invalid status code: 
+showMessage
+window.File && File.option && (File.option.hasUpdates=true)
+skipUpdate
+releaseNoteLink
+releaseNoteLinkCN
+update-available
+showError
+/assets/icon/icon_32x32.png
+downloadCN
+typora-update-
+askForInstall
+getSavePath
+downloadUpdate
+installPathOnQuit
+installIfNeeded
+updater.checkForUpdates
+updater.cancelUpdate
+updater.skipUpdate
+updater.downloadUpdate
+electron
+child_process
+electron-dl
+electron-fetch
+electron-progressbar
+extract-zip
+fs-extra
+fs/promises
+lowdb/adapters/FileSync
+Cannot find module 'require('native-reg')'
+MODULE_NOT_FOUND
+node-machine-id
+sudo-prompt
+Cannot find module 'require('sudo-prompt')'
+__esModule
+^file:\/\/
+This version does not support Windows 7/8/8.1 
+This version does not support Windows 7/8/8.1 yet, please download and use Typora v1.5.12 (If you launch with Windows 7/8/8.1 Compatibility Mode on newer Windows versions, please turn that off.)
+https://typoraio.cn/releases/all#win7
+https://typora.io/releases/all#win7
+(\.[^.\/\\]+?$)
+node_modules.asar
+globalPaths
+(\.node$)|(\/build\/Release)
+\bnode_modules\.asar\b
+--inspect
+--remote-debugging-port
+Arguments not allowed debug in production main thread
+requireDepth
+protocol
+pathToFileURL
+no-sandbox
+requestSingleInstanceLock
+secondary instance would exit
+launch with argv [
+second-instance
+got argv [
+] from secondary instance
+ .hJ ^0&
+syncBackups
+added recovery 
+Error on creating backup folder 
+innormalQuit
+untitledId
+unusedAssets
+scrollPos
+syncDate
+Error on saving backups 
+synced recovery
+/backups
+onCloseWin
+getCurrentFocusWindowId
+app.openFile
+app.openFileOrFolder
+app.openOrSwitch
+app.openFolder
+app.onCloseWin
+app.sendEvent
+reopenFolder
+fromReopen
+--reopen-file
+reopen folder
+reopen file
+pinFolder 
+ "4>xR(&
+recoverWindow 
+] recover from content 
+abort recovery: file too large
+skip due to empty untitled file
+launch from abnormal quit
+failed to read backup 
+recoverFromBackup
+--on-dev
+exit second instance
+------------------start------------------
+before setting 
+after setting 
+typora version: 
+[Power] suspend
+window.onPowerChange && window.onPowerChange("suspend")
+[Power] resume
+window.onPowerChange && window.onPowerChange("resume")
+lock-screen
+[Power] lock-screen
+window.onPowerChange && window.onPowerChange("lock-screen")
+unlock-screen
+window.onPowerChange && window.onPowerChange("unlock-screen")
+fromPartition
+will-download
+cleanUpExpiredDrafts
+window-all-closed
+before-quit
+----------------before-quit-----------------l 
+app.cancelQuit
+-----------------quit------------------
+will-quit
+------------------will-quit------------------
+/runtime-storage
+/typora-old.log
+unlinkSync
+browser-window-blur
+browser-window-focus
+[focus] 
+getWorkingDir
+File.option && (File.option.pinFolder = 
+ File.editor && File.editor.library && File.editor.library.setMountFolder(
+, true, 
+isDirectorySync
+\.textbundle$
+isDirectory
+File.editor.library.openFile(
+isLoadingMainFrame
+File.changeCounter.isDiscardableUntitled()
+onMessage
+pathname
+app.download
+[app.download] downloading 
+getMimeType
+getRealPath
+typora-bg
+body {background:
+text/cssE
+defaultSession
+webRequest
+onBeforeSendHeaders
+requestHeaders
+Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36
+User-Agent
+[?#][^\\\/]*$
+^userData
+^typemark
+reject access to path
+current-theme\.css$
+preview\.html
+\.html[?#].*$
+registerSchemesAsPrivileged
+privileges
+supportFetchAPI
+bypassCSP
+corsEnabled
