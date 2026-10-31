@@ -15,6 +15,11 @@ AItyporapojietmptypora-profile/
 # throwaway scratch (temp scripts / notes / probes) - never commit these
 tmp/
 tmp_*
+# 宣传视频工程：Remotion 依赖（856MB）+ 成片 + 素材，不进仓库
+video/
+# Go 版工具：编译产物与测试文件不进仓库（源码 typoraGO/ 正常跟踪）
+typoraGO/*.exe
+typoraGO/**/*_test.go
 # Windows junk
 Thumbs.db
 desktop.ini

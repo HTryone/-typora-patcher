@@ -1,8 +1,14 @@
 // Typora Green 启动器（编译版；取代了早期 START-Typora.bat 里的内联 PowerShell 写法）
 // 编译：见 scripts/build-launcher.sh（csc -target:winexe -codepage:65001）
-// 行为：① 校验 app\Typora.exe 存在；② 首次运行建快捷方式（包根 + 桌面，桌面路径按注册表
-//       User Shell Folders 解析，兼容被重定向到 D:\desktop 这类情况）；③ 启动 Typora。
+// 行为：① 校验 app\Typora.exe 存在；② 启动前清理他机残留的试用数据（详见 CleanStaleTrial）；
+//       ③ 首次运行建快捷方式（包根 + 桌面，桌面路径按注册表 User Shell Folders 解析，
+//       兼容被重定向到 D:\desktop 这类情况）；④ 启动 Typora。
 // 首次运行标记放在包外（%LOCALAPPDATA%\TyporaGreen.setup-done），包内残留的 .lnk 骗不过它。
+//
+// 【为什么清理做在 exe 里】.bat 依赖控制台代码页与 reg/powershell 的调用环境，换机器不靠谱；
+// C# 编译产物行为处处一致。清理只删「试用相关」的键值与 Chromium 存储目录——不碰
+// SLicense/IDate/MFp（本补丁的授权值），也不碰 themes/conf 等用户配置，
+// 所以对官方正版共存场景安全（B 站反馈的「绿色版每次打开都提示激活」即旧试用残留所致）。
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -67,6 +73,8 @@ internal static class Program
             try { File.WriteAllText(marker, "done"); } catch { }
         }
 
+        CleanStaleTrialOnce();
+
         try
         {
             Process.Start(new ProcessStartInfo(exe)
@@ -81,6 +89,79 @@ internal static class Program
             return 1;
         }
         return 0;
+    }
+
+    // ============================================================
+    // 旧试用残留清理（检测到才清，不锁死）
+    // ============================================================
+
+    // 他机残留的试用数据会让绿色版首次启动就被顶回「激活/试用」态（B 站反馈）。
+    // 每次启动先检测：注册表里出现试用键（TrialStart/TDate/FirstLaunch/LaunchCount，
+    // 只有进入试用态 Typora 才会写）才算有问题 → 清掉试用键值与 Chromium 存储目录；
+    // 没有就整体跳过，一个字节都不动。不用标记文件，_state 会自愈：
+    // 残留被清掉后后续启动全部走「无问题」分支， Typora 哪天重写试用键也会再次被清。
+    // 清理范围：试用相关键值与存储目录；SLicense/IDate/MFp（本补丁写入的授权值）
+    // 与 themes/conf 等用户配置一律不动，对「官方正版共存」场景安全。
+    // 本方法在启动 Typora 之前调用，不存在文件被占用的问题。
+    private static void CleanStaleTrialOnce()
+    {
+        string[] trialValues = { "TrialStart", "TDate", "FirstLaunch", "LaunchCount" };
+
+        // ① 检测：注册表里有没有试用键
+        bool stale = false;
+        try
+        {
+            using (RegistryKey k = Registry.CurrentUser.OpenSubKey(@"Software\Typora"))
+            {
+                if (k != null)
+                {
+                    foreach (string v in trialValues)
+                    {
+                        if (k.GetValue(v) != null) { stale = true; break; }
+                    }
+                }
+            }
+        }
+        catch { return; }
+
+        // 没问题就什么都不做
+        if (!stale) return;
+
+        // ② 有问题：清注册表试用键值（逐个删，绝不整键删除）
+        try
+        {
+            using (RegistryKey k = Registry.CurrentUser.OpenSubKey(@"Software\Typora", true))
+            {
+                if (k != null)
+                {
+                    foreach (string v in trialValues)
+                    {
+                        try { k.DeleteValue(v, false); } catch { }
+                    }
+                }
+            }
+        }
+        catch { }
+
+        // ③ 清 Chromium 试用持久化数据（逐个目录删，不动 Typora 用户目录本身）
+        try
+        {
+            string baseDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Typora");
+            if (Directory.Exists(baseDir))
+            {
+                string[] trialDirs = {
+                    "Local Storage", "Session Storage", "SharedStorage", "DIPS",
+                    "Code Cache", "Cache", "GPUCache", "DawnGraphiteCache",
+                    "DawnWebGPUCache", "Shared Dictionary", "Network"
+                };
+                foreach (string d in trialDirs)
+                {
+                    try { Directory.Delete(Path.Combine(baseDir, d), true); } catch { }
+                }
+            }
+        }
+        catch { }
     }
 
     private static string AppDir()
