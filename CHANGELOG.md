@@ -10,13 +10,28 @@
 
 ## [未发布]
 
+### 新增
+- **`typoraGO/` —— typora_crack.js 的 Go 重写版（图形界面激活工具 `typoratool.exe`）**
+  - **形态**：2.9MB 单文件 exe，零第三方依赖，不需要 Node.js；默认原生 Win32 图形界面（不弹 CMD 窗口），`--cli` 进控制台菜单，另有 `--status` / `--activate --yes` / `--rollback --yes` 可脚本化。
+  - **全自动激活**：机器码与邮箱自动生成（本地校验只比对 fingerprint，运行时由注入代码取本机真实值覆盖；deviceId 不参与比对），无需用户粘贴任何内容。
+  - **界面细节**：单实例锁（重复双击只唤前台）、Per-Monitor V2 DPI 感知（清单 + 运行时双保险）、路径自动检测（App Paths → 常见位置）+「浏览…」+ 选错层级自动向上纠正、T 图标加绿勾徽章（与原版 Typora 区分）、激活/状态日志带 Typora 版本号。
+  - **与 JS 版的一致性**：注入代码与 `typora_crack.js` 的 `getInsertCode` 输出**逐字节一致**（自动化比对测试），仅修正 JS 版两处模板转义缺陷——`__FP_KEY` 运行时是 `HKCUSoftwareTypora`（反斜杠被吃光）、MFp 匹配正则 `\s` 被吃成 `s`，即 v1.0.6 的「MFp 指纹注册表缓存」在 JS 版从未生效，一直靠 8ms 轮询兜底。
+  - **验证**：10 个测试（asar 往返/真实归档解包、保险丝翻转、机器码解码与自动生成、注入点定位、代码生成、JS 版对齐、假安装端到端 激活→校验→回滚→校验）；真机实测：回滚后 SHA256 与母本逐字节一致 → Go 工具全新激活 → `typora.log` 出现 `[L] pass`。
+  - **工程**：源码按职责分包（`ui`/`console`/`system`/`asar`/`fuses`/`patcher`）；`build.bat` 一键编译（GUI 子系统，自动补生成图标资源）；图标由 `tools/make_icon.py` 从 Typora 原版 1024px T 图标按尺寸重绘。
+  - **发行**：`typoratool-v1.0.6.exe` 与脚本版压缩包**并行发布**（不打进压缩包）。
+
 ### 变更
+- **绿色版启动器（`scripts/launcher/Program.cs`）新增试用残留清理**：每次启动先检测注册表试用键（`TrialStart`/`TDate`/`FirstLaunch`/`LaunchCount`，只有进入试用态才会写），有残留才清掉试用键值与 Chromium 存储目录；无残留一个字节都不动（自愈式，不锁死）。
+  - **原因**：B 站反馈绿色版在部分机器上「每次打开都提示激活」——他机残留的旧试用数据所致。
+  - **边界**：绝不整键删除；`SLicense`/`IDate`/`MFp`（补丁授权值）与 `themes`/`conf`（用户配置）一律不碰，官方正版共存场景安全。
+  - **验证**：三场景实测（无残留跳过/有残留清掉/再塞再清）+ 授权值全程完好。
 - **依赖清单纳入版本跟踪**：`.gitignore` 不再忽略 `package.json` / `package-lock.json`。
   - **原因**：这两个文件被忽略时，别人 clone 下来没有依赖清单，脚本首跑走的是 `npm install` 装**最新版**，装到什么算什么 —— 依赖会随上游漂移，而 `@electron/fuses` 是纯 ESM 包且要求 Node ≥ 22.12，漂一版就可能起不来。
   - **锁定值**：`asar 3.2.0`、`chalk 4.1.2`、`readline-sync 1.4.10`、`iconv-lite 0.7.2`、`@electron/fuses 2.1.2`（与本地 `node_modules` 实际版本逐一核对一致）。
   - `package.json` 同时收拾了元信息：`name` 改 `typora-patcher`、`version` 对齐发行号 `1.0.6`、`description` 换成一句真描述（原值是误粘的 README 段落）、补 `engines.node >= 22.12.0`、`scripts.check`。
 
 ### 文档
+- **主 README**：「两个版本怎么选」扩为**三个发行物**选型表（typoratool / 绿色版 / 脚本版），顶部嵌入 typoratool logo。
 - **新增 [DOC/COMPATIBILITY.md](DOC/COMPATIBILITY.md)**：逐版本的**核查证据**文档，与 [DOC/VERSIONS.md](DOC/VERSIONS.md)（哪版改了什么）分工不重叠。内容为 1.14.10 实测：
   - `app.asar` 头解析结果、3 个文件的 offset / 大小 / SHA256（与头里 `integrity.hash` 逐一核对一致，证明是官方原件）；
   - 注入点正则首个命中 `require("module");` 在 char 98、插入点 116，注入块解析通过、51 个顶层名无重名、注入点早于 jsc 加载；
@@ -30,12 +45,16 @@
 ### 改动文件
 | 文件 | 改动 |
 |------|------|
-| `.gitignore` | 删掉 `package-lock.json`、`package.json` 两行 |
-| `package.json` | 元信息收拾 + 新增 `engines` / `scripts.check`（**新增跟踪**） |
-| `package-lock.json` | 按新元信息重生成，依赖版本不变（**新增跟踪**） |
+| `typoraGO/` | **新增**：Go 版工具全套源码（13 个 .go 按包组织 + 图标资源 + 构建脚本，测试文件与 exe 不进仓库） |
+| `scripts/launcher/Program.cs` | +85 / -2：新增试用残留检测与清理 |
+| `README.md` | 两个版本 → 三个发行物选型表；顶部嵌 logo；新增 typoratool 章节 |
+| `.gitignore` | 新增 `typoraGO/*.exe`、`typoraGO/**/*_test.go`、`video/` |
 | `DOC/COMPATIBILITY.md` | 新增 |
 | `DOC/README.md` | 读表与结构各加一行 |
 | `TECHNICAL.md` | 依赖表改锁定版本 |
+
+### 提交
+- `c8917c5` feat: Go 版激活工具 typoraGO（图形界面，单独发布）；绿色版启动器清理他机试用残留
 
 ---
 

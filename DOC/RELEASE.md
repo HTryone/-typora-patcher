@@ -52,12 +52,13 @@ git push --set-upstream origin main   # 首次或上游跟踪丢了时
 
 ## 5. 上传 Release
 
-资产名固定这两个，别人也好写脚本：
+资产名固定这三个，别人也好写脚本：
 
 | 资产 | 内容 |
 |---|---|
 | `typora-patcher-X.Y.Z.7z` | 脚本版包 |
 | `Typora.Green.7z` | 绿色版包 |
+| `typoratool-vX.Y.Z.exe` | 图形界面激活工具（**单 exe，不打包**；源码 `typoraGO/`，`build.bat` 编译） |
 
 做法（最简单、最不容易错）：GitHub → Releases → 选中该 tag → **Edit** → 把新包拖进 assets → **Update release**。
 
@@ -68,7 +69,8 @@ git push --set-upstream origin main   # 首次或上游跟踪丢了时
 ## 6. 发完自查
 
 - [ ] 用浏览器**下载自己刚传的包**，解压 → 双击 → 能正常激活/能建快捷方式；
-- [ ] Release 页面上的资产名、说明、版本号对得上；
+- [ ] `typoratool-vX.Y.Z.exe` 单独下载一次，双击能出图形界面（图标是 T + 绿勾）；
+- [ ] Release 页面上的资产名、说明、版本号对得上（三个资产都在）；
 - [ ] README 顶部的「本版更新」不是上一版的陈词；
 - [ ] 包内说明文件的版本号与包名一致。
 
