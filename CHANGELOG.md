@@ -10,7 +10,13 @@
 
 ## [未发布]
 
+### 变更
+- **脚本版停止独立发行**（维护者决定）：`typora_crack.js` + `start.bat` + 依赖清单**迁至仓库内 `script-release/` 目录归类维护**，不再打包发行；Release 资产收敛为 `Typora.Green.7z` + `typoratool-vX.Y.Z.exe` 两个。后期维护重心：离线绿色版与 typoratool（Go 版）。文档口径同步：README「三个发行物」表、脚本版章节（存档化）、DOC/RELEASE.md 资产表与自查清单（三资产→两资产）、DOC/PACKAGING.md 命名表、DOC/BUILD-SCRIPT.md 顶部定位声明、DOC/TECHNICAL.md 顶部存档声明、AGENT.md 脚本版路径。
+
 ### 新增
+- **启动器首次运行强制清理**（`scripts/launcher/Program.cs`）：离线绿色包在他机上**第一次启动前**，无条件清一遍试用残留（注册表试用键 `TrialStart`/`TDate`/`FirstLaunch`/`LaunchCount` + Chromium 存储目录），不再依赖「注册表里恰好有试用键」的检测——`%APPDATA%\Typora` 里只残留旧授权态（localStorage）而注册表无键的机器也能被清干净，避免首启即「未激活」。后续启动仍走「检测到才清」自愈；`SLicense`/`IDate`/`MFp`（补丁授权值）与 `themes`/`conf`（用户配置）依旧不碰，官方正版共存安全。
+  - **验证**：假 exe 隔离测试（阻止 Typora 重建缓存干扰判断）——塞 `TrialStart` + `GPUCache` 旧文件 + 删首次标记 → 双击启动器 → 试用键被删、存储目录被清、标记写 `done`；真机实测授权值全程保留、Typora 正常拉起。
+
 - **`typoraGO/` —— typora_crack.js 的 Go 重写版（图形界面激活工具 `typoratool.exe`）**
   - **形态**：2.9MB 单文件 exe，零第三方依赖，不需要 Node.js；默认原生 Win32 图形界面（不弹 CMD 窗口），`--cli` 进控制台菜单，另有 `--status` / `--activate --yes` / `--rollback --yes` 可脚本化。
   - **全自动激活**：机器码与邮箱自动生成（本地校验只比对 fingerprint，运行时由注入代码取本机真实值覆盖；deviceId 不参与比对），无需用户粘贴任何内容。

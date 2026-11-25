@@ -4,31 +4,33 @@
   <img src="typoraGO/assets/typoratool-logo.png" width="96" alt="typoratool"/>
 </p>
 
-> ⭐ **v1.0.6 更新**：修掉**绿色版换电脑后显示「未激活 + 15 天试用」**（指纹竞态）；绿色版启动入口换成**编译版 `START-Typora.exe`**（7KB、不依赖 PowerShell，快捷方式被删或文件夹挪位置会自动补建）；绿色版启动器会自动清理他机残留的旧试用数据。**新增第三个发行物 `typoratool.exe`**（图形界面激活工具，单独发布，见下）。**全部在 [Releases](https://github.com/HTryone/-typora-patcher/releases) 下载。**
+> ⭐ **v1.0.6 更新**：修掉**绿色版换电脑后显示「未激活 + 15 天试用」**（指纹竞态）；绿色版启动入口换成**编译版 `START-Typora.exe`**（不依赖 PowerShell，快捷方式被删或文件夹挪位置会自动补建）；绿色版启动器会自动清理他机残留的旧试用数据，**首次启动强制清一遍**（他机残留的旧试用数据/缓存不会顶掉激活态）。**新增第三个发行物 `typoratool.exe`**（图形界面激活工具，单独发布，见下）。**全部在 [Releases](https://github.com/HTryone/-typora-patcher/releases) 下载。**
 >
 > 📌 **基于的软件版本**：本版绿色版内置 **Typora 1.14.10**（Windows x64）并已打好补丁；脚本版不绑定版本，官网下载的 Typora 均可（自 1.14.10 实测）。「v1.0.6」是本工具的发行号，不是 Typora 的版本号。
 
 ## 三个发行物怎么选
 
-| | ⚡ typoratool（单独发布） | 🟢 免安装绿色版 | 🔧 脚本版 |
+| | ⚡ typoratool（单独发布） | 🟢 免安装绿色版 | 🔧 脚本版（**不单独发行**） |
 |---|---|---|---|
 | **是什么** | 2.9MB 单文件激活工具（Go 写的） | 完整 Typora 已打好补丁 | 控制台脚本 |
 | **适合谁** | 自己装了官网 Typora、想最省事 | 所有人（尤其小白） | 想自己动手 / 对绿色版有顾虑 |
 | **使用方式** | 双击 exe → UAC「是」→ 点「一键激活」，**机器码邮箱全自动，什么都不用填** | 解压 → 双击 `START-Typora.exe` → 完成 | 装 Node.js 和 Typora → 跑 `start.bat` → 按提示输入 |
-| **需要 Node.js** | ❌ 不需要 | ❌ 不需要 | ✅ 需要（包内附带） |
+| **需要 Node.js** | ❌ 不需要 | ❌ 不需要 | ✅ 需要 |
 | **需要 Typora 安装包** | 自备（已装好的 Typora） | ❌ 内置完整 Typora **1.14.10** | 自备（官网下载任意版本） |
-| **文件体积** | 2.9 MB | 压缩包约 94 MB（解压约 390 MB） | 压缩包约 70 MB |
+| **文件体积** | 2.9 MB | 压缩包约 94 MB（解压约 390 MB） | 源码在维护者本地（script-release\），不再提供 |
 | **回滚** | 点「回滚还原」按钮 | `SETUP.bat` 选 3 + 重装官方版 | 重跑脚本按 Y |
 
-**推荐**：已装 Typora 的用 `typoratool-v1.0.6.exe`（最省事）；想连软件一起免安装的用绿色版；脚本版留给需要自定义安装路径等场景。
+**推荐**：已装 Typora 的用 `typoratool-v1.0.6.exe`（最省事）；想连软件一起免安装的用绿色版。
 
 > `typoratool.exe` 源码在本仓库 [`typoraGO/`](typoraGO/README.md)（Go，注入逻辑与脚本版逐字节一致，真机验证过 `[L] pass`）。
+>
+> **脚本版不再提供**：源码（`typora_crack.js` + `start.bat`）已迁至仓库内 `script-release/` 目录归类维护；不再打包发行。
 
 ---
 
 ## ⚡ typoratool（单独发布，图形界面）
 
-**文件**：`typoratool-v1.0.6.exe`（**单独一个 exe，2.9 MB，不是压缩包**；与脚本版压缩包并行发布）
+**文件**：`typoratool-v1.0.6.exe`（**单独一个 exe，2.9 MB，不是压缩包**）
 
 > 源码在本仓库 [`typoraGO/`](typoraGO/README.md)（Go 重写，注入逻辑与脚本版逐字节一致，真机验证过 `[L] pass`）。
 
@@ -75,30 +77,17 @@
 
 ---
 
-## 🔧 脚本版
+## 🔧 脚本版（已退出发行）
 
-**压缩包**：`typora-patcher-1.0.6.7z`（**发行版本 v1.0.6**）
+> **脚本版不再打包发行**——源码已迁至仓库内 [`script-release/`](script-release/) 目录归类维护。想快速上手请用上面的 typoratool 或绿色版。
 
 > 脚本版**不绑定 Typora 版本**：任何官网版本都能打（v1.0.6 实测于 Typora 1.14.10）。
-> 包里只带 Node.js 运行时与补丁脚本，**不含 Typora 安装包**。
 
-### 包内内容
+### 使用步骤（存档）
 
-| 文件/目录 | 说明 |
-|---|---|
-| `start.bat` | 启动器，双击运行 |
-| `typora_crack.js` | 补丁主脚本（v1.0.6） |
-| `node.js/` | Node.js 安装包（`.msi` 推荐 + `.zip` 便携备用） |
-| `node_modules/` | 脚本依赖（已内置，首次运行免联网） |
-| `发行说明.txt` | 包内说明 |
-
-> 本包**不再附带 Typora 安装包**：去[官网](https://typora.io)下载任意版本安装即可。
-
-### 使用步骤
-
-1. **安装 Node.js** — 双击 `node.js/node-v24.18.0-x64.msi`（已装过可跳过）
+1. **安装 Node.js**（官网下载，已装过可跳过）
 2. **安装 Typora** — 官网下载任意版本安装，装完打开一次再关闭
-3. **双击 `start.bat`**，按提示：
+3. **运行脚本**，按提示：
    - 选择 Typora 安装目录（自动检测，回车确认）
    - 输入机器码（Typora → 激活 → 输入序列号 → 离线激活，复制机器码）
    - 输入邮箱（随便填，格式对即可）
@@ -127,7 +116,7 @@
 **Mac 用户可选的做法**
 
 1. **买正版**（最省事）：[typora.io](https://typora.io) 支持支付宝/微信，一份授权多设备可用。
-2. **等社区移植**：本仓库的注入思路（`typora_crack.js` 的 Hook 设计）是公开的，懂 macOS 的人可以照着做，但需要自己逆向 macOS 版结构与授权校验点。
+2. **等社区移植**：本项目的注入思路（`typora_crack.js` 的 Hook 设计，现存维护者本地 `script-release\`）是公开过的，懂 macOS 的人可以照着做，但需要自己逆向 macOS 版结构与授权校验点。
 3. **想看移植怎么起手**：把仓库链接和你遇到的问题一起贴给 AI，用下面那节「给 AI 的提示词」，让它基于仓库事实评估可行性。
 
 > 不要把 Windows 版的 exe 或绿色包拿到 Mac 上试，跑不起来。
@@ -169,7 +158,7 @@ https://github.com/HTryone/-typora-patcher
 A：旧版脚本（v1.0.2 及更早）没拦截 Typora 自动更新，Typora 升级后补丁失效。**换 v1.0.6 绿色版**（推荐），或用 v1.0.6 脚本重跑一次。
 
 **Q：我怎么知道自己装的是哪个版本？**
-A：绿色版看解压目录里 `使用说明.md` 或 `README-先看我.txt` 开头标注的「发行版本：v1.0.6」；脚本版看压缩包名 `typora-patcher-1.0.6.7z`，或包内 `发行说明.txt` 首行 `typora-patcher v1.0.6`。两个包的版本号指向同一发行批次。
+A：绿色版看解压目录里 `使用说明.md` 或 `README-先看我.txt` 开头标注的「发行版本：v1.0.6」；`typoratool.exe` 看文件名里的版本号。脚本版已不提供打包下载，用仓库源码跑的以 `git log` 为准。
 
 **Q：绿色版双击 `START-Typora.exe` 闪退，或桌面没出现图标？**
 A：确认解压完整（`app\resources` 子目录存在）；换个解压路径；检查杀毒软件是否拦截。若 exe 被杀软删了，把它加入白名单后重新解压；图标没建出来可以 `SETUP.bat` 选 1 手动建（启动器每次启动也会自动自检补建）。
@@ -186,12 +175,13 @@ A：绿色版已屏蔽自动更新。换新包：先 `SETUP.bat` 选 3 清理 �
 
 ## 🛠️ 开发 / 自己构建
 
-想自己改代码、自己造绿色版或脚本版发行包、或者遇到激活问题要排错 —— 见 **[DOC/](DOC/)**：
+想自己改代码、自己造绿色版发行包、或者遇到激活问题要排错 —— 见 **[DOC/](DOC/)**：
 
 | 文档 | 内容 |
 |---|---|
 | [DOC/BUILD-GREEN.md](DOC/BUILD-GREEN.md) | 从零构建绿色版（打包规则、启动器编译、自查清单） |
-| [DOC/BUILD-SCRIPT.md](DOC/BUILD-SCRIPT.md) | 配脚本版发行包 |
+| [DOC/BUILD-SCRIPT.md](DOC/BUILD-SCRIPT.md) | 脚本版自用组装（已停止独立发行） |
+| [DOC/PACKAGING.md](DOC/PACKAGING.md) | 压缩参数、资产命名、打包前清点 |
 | [DOC/LAUNCHER.md](DOC/LAUNCHER.md) | 启动器开发与测试矩阵 |
 | [DOC/RELEASE.md](DOC/RELEASE.md) | 发版与上传流程 |
 | [DOC/TROUBLESHOOTING.md](DOC/TROUBLESHOOTING.md) | 排错手册（含「模拟换一台电脑」自测法） |

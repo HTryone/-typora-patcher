@@ -47,18 +47,21 @@ git push --set-upstream origin main   # 首次或上游跟踪丢了时
 
 ## 4. 打包
 
-- 脚本版 → [BUILD-SCRIPT.md](BUILD-SCRIPT.md)
-- 绿色版 → [BUILD-GREEN.md](BUILD-GREEN.md)（记得先 `bash scripts/build-launcher.sh` 重编启动器）
+- ~~脚本版~~ → 已停止独立发行（见第 5 节说明；自用组装照 [BUILD-SCRIPT.md](BUILD-SCRIPT.md)，产物放 `script-release\`）
+- 绿色版 → [BUILD-GREEN.md](BUILD-GREEN.md)（记得先 `bash scripts/build-launcher.sh` 重编启动器，脚本会自动带 Typora 图标）
+- **压缩参数、本地产物命名、打包前清点清单 → [PACKAGING.md](PACKAGING.md)**（`-mx=9` 固定参数，别改；打包源是 `tmp\green-local\`，先删测试残留的 `Typora Green.lnk`）
 
 ## 5. 上传 Release
 
-资产名固定这三个，别人也好写脚本：
+资产名固定这两个，别人也好写脚本：
 
 | 资产 | 内容 |
 |---|---|
-| `typora-patcher-X.Y.Z.7z` | 脚本版包 |
-| `Typora.Green.7z` | 绿色版包 |
+| `Typora.Green.7z` | 绿色版包（**固定名，不带版本号**；`dist\` 里就叫这个名字，上传零改名） |
 | `typoratool-vX.Y.Z.exe` | 图形界面激活工具（**单 exe，不打包**；源码 `typoraGO/`，`build.bat` 编译） |
+
+> **脚本版（`typora_crack.js` + `start.bat`）不再单独发行**（维护者决定）：不打包、不上 Release、不占资产位。
+> 代码随仓库继续维护（注入模板仍是 Go 版对齐的基准）；需要给别人时从 `script-release\` 自行组装压包私下发，流程照 [BUILD-SCRIPT.md](BUILD-SCRIPT.md)，产物不进 dist、不进 Release。
 
 做法（最简单、最不容易错）：GitHub → Releases → 选中该 tag → **Edit** → 把新包拖进 assets → **Update release**。
 
@@ -70,7 +73,7 @@ git push --set-upstream origin main   # 首次或上游跟踪丢了时
 
 - [ ] 用浏览器**下载自己刚传的包**，解压 → 双击 → 能正常激活/能建快捷方式；
 - [ ] `typoratool-vX.Y.Z.exe` 单独下载一次，双击能出图形界面（图标是 T + 绿勾）；
-- [ ] Release 页面上的资产名、说明、版本号对得上（三个资产都在）；
+- [ ] Release 页面上的资产名、说明、版本号对得上（**两个资产都在**，脚本版不出现）；
 - [ ] README 顶部的「本版更新」不是上一版的陈词；
 - [ ] 包内说明文件的版本号与包名一致。
 

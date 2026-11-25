@@ -1,10 +1,14 @@
-# 配一个「脚本版」发行包
+# 配一个「脚本版」发行包（**已停止独立发行**）
+
+> ⚠️ **定位变更（维护者决定，2026-11）**：脚本版**退出发行体系**——`typora_crack.js` / `start.bat` / `package.json` 已迁至仓库内 `script-release/` 归类维护，不打包、不上传、不占资产位。
+> 需要给别人时：在 `script-release\` 目录用本文流程自行组装压包私下发，产物**不进 dist、不进 Release、不写 CHANGELOG 版本条目**。
+> 公开 Release 只剩 `Typora.Green.7z` + `typoratool-vX.Y.Z.exe`（见 [RELEASE.md](RELEASE.md)）。
 
 脚本版 = 让用户**在自己机器上**跑补丁：包里只有 Node.js 运行时、补丁脚本和说明；Typora 由用户自己装。
 适合「想自己动手 / 不放心用别人打好的包 / 需要自定义安装路径」的场景。
 
-> 另有一个**并行发行物**：图形界面工具 `typoratool.exe`（源码在 [`typoraGO/`](../typoraGO/README.md)，
-> `build.bat` 一键编译），它**不打进本压缩包**，作为单独的 exe 资产与脚本包同时上架 Release。
+> 另有一个**并行工具**：图形界面激活工具 `typoratool.exe`（源码在 [`typoraGO/`](../typoraGO/README.md)，
+> `build.bat` 一键编译），它**不打进本压缩包**，作为单独的 exe 资产上架 Release。
 > 用户视角的三选一说明见仓库根 [README.md](../README.md) 的「三个发行物怎么选」。
 
 ## 包里的 5 项（缺一不可，**就这 5 项**）
@@ -30,7 +34,7 @@ typora-patcher-<版本号>/     ← 压这一层（压出来解压后应直接�
 └─ node_modules/
 ```
 
-- 压缩包命名：`typora-patcher-<版本号>.7z`（与 Release 资产名一致）。
+- 压缩包命名：`typora-patcher-<版本号>.7z`（自用标识，**不再是 Release 资产名**）；组装产物统一放 `script-release\`。
 - Node.js 安装包（约 67MB）**用 NTFS 硬链接复用母本**，别复制，省空间也省时间：
 
 ```bash

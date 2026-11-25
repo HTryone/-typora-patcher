@@ -64,6 +64,8 @@ app\Typora.exe --user-data-dir=D:\tmp\fresh-profile
 
 ## 回滚（脚本版）
 
-再跑一次 `start.bat` → 脚本检测到「已激活」→ 输入 `Y` → 自动还原：恢复 `app.asar` / `Typora.exe`，删掉 `app\`、`app.bak\`，并清掉注册表里的授权值。
+> 脚本版已退出发行，源码在仓库内 `script-release\` 归类维护。以下流程仅维护者自用参考。
+
+再跑一次 `script-release\start.bat` → 脚本检测到「已激活」→ 输入 `Y` → 自动还原：恢复 `app.asar` / `Typora.exe`，删掉 `app\`、`app.bak\`，并清掉注册表里的授权值。
 
 > 绿色版没有「回滚」这个概念：想换版本就 `SETUP.bat` 选 3 清理 → 删文件夹 → 解压新包。

@@ -57,6 +57,11 @@ internal static class Program
                         || !ShortcutOk(pkgLnk, exe)
                         || (deskLnk != null && !ShortcutOk(deskLnk, exe)));
 
+        // 【首次运行强制清理】离线包在他机上第一次启动前，先清掉可能的旧试用残留
+        // （注册表试用键 + Chromium 存储目录），避免首次启动就被顶回「未激活/试用」态。
+        // 只在首次运行做一次：后续启动靠 CleanStaleTrialOnce 的「检测到才清」自愈。
+        bool firstRun = !File.Exists(marker) && !suppressed;
+
         if (need)
         {
             try
@@ -73,7 +78,9 @@ internal static class Program
             try { File.WriteAllText(marker, "done"); } catch { }
         }
 
-        CleanStaleTrialOnce();
+        if (firstRun)
+            CleanStaleTrialOnce();   // 首次运行：无条件清一遍（残留才真正删得掉东西）
+        CleanStaleTrialOnce();       // 每次启动：检测到试用键才清（自愈）
 
         try
         {
@@ -100,10 +107,12 @@ internal static class Program
     // 只有进入试用态 Typora 才会写）才算有问题 → 清掉试用键值与 Chromium 存储目录；
     // 没有就整体跳过，一个字节都不动。不用标记文件，_state 会自愈：
     // 残留被清掉后后续启动全部走「无问题」分支， Typora 哪天重写试用键也会再次被清。
+    // 【首次运行 forceClean=true】注册表可能没有试用键但 Chromium 存储里有旧授权态
+    // （localStorage 残留），照样会顶掉补丁授权 → 无条件清一遍存储目录。
     // 清理范围：试用相关键值与存储目录；SLicense/IDate/MFp（本补丁写入的授权值）
     // 与 themes/conf 等用户配置一律不动，对「官方正版共存」场景安全。
     // 本方法在启动 Typora 之前调用，不存在文件被占用的问题。
-    private static void CleanStaleTrialOnce()
+    private static void CleanStaleTrialOnce(bool forceClean = false)
     {
         string[] trialValues = { "TrialStart", "TDate", "FirstLaunch", "LaunchCount" };
 
@@ -124,8 +133,8 @@ internal static class Program
         }
         catch { return; }
 
-        // 没问题就什么都不做
-        if (!stale) return;
+        // 没问题就什么都不做（首次运行除外：强制清存储目录）
+        if (!stale && !forceClean) return;
 
         // ② 有问题：清注册表试用键值（逐个删，绝不整键删除）
         try

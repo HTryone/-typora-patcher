@@ -1,8 +1,11 @@
 # Typora 激活脚本 - 技术文档
 
+> **脚本版已退出发行体系**（2026-11 维护者决定）：`typora_crack.js` / `start.bat` / `package.json` / `package-lock.json` 迁至仓库内 `script-release/` 归类维护，不再打包发行。本文档保留作为注入原理的存档说明。
+> 后期维护重心：绿色版（[BUILD-GREEN.md](DOC/BUILD-GREEN.md)）与 typoratool（[typoraGO/](typoraGO/README.md)）。
+
 ## 概述
 
-`typora_crack.js` 是一个基于 Node.js 的 Typora 激活脚本，支持 Windows 平台。通过解包 app.asar、注入 Hook 代码、修改 Electron Fuses 和写入注册表授权信息，实现对 Typora 的激活。
+`script-release\typora_crack.js` 是一个基于 Node.js 的 Typora 激活脚本，支持 Windows 平台。通过解包 app.asar、注入 Hook 代码、修改 Electron Fuses 和写入注册表授权信息，实现对 Typora 的激活。
 
 ## 依赖
 
@@ -14,7 +17,7 @@
 | `iconv-lite` | 0.7.2 | GBK→UTF-8 编码转换（注册表输出解码） |
 | `@electron/fuses` | 2.1.2 | 修改 Electron Fuses 配置（纯 ESM 包，要求 Node ≥ 22.12） |
 
-`package.json` 与 `package-lock.json` **已纳入版本跟踪**，上面就是锁定的版本。
+`package.json` 与 `package-lock.json` 随脚本迁至 `script-release\`，上面就是锁定的版本。
 
 脚本首次运行时检测 `node_modules`，不存在则 `npm install`（有 `package.json` 时按清单装，没有才先 `npm init -y`），完成后自动重启自身。
 
@@ -127,7 +130,7 @@ HKCU\Software\Typora\IDate = "{当前日期 MM/DD/YYYY}"
 | `resources/app/` | 新建（解包目录，含注入代码） |
 | `resources/app.bak/` | 新建（解包目录原始备份） |
 
-## 启动方式
+## 启动方式（script-release\ 目录下）
 
 - **命令行**：`node typora_crack.js`
 - **双击**：`start.bat`（自动检测 Node.js）

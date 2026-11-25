@@ -17,8 +17,9 @@
 
 ```bash
 git clone <本仓库> && cd <仓库目录>
-npm install                 # 或直接跑脚本，它检测到缺依赖会自己装
-node typora_crack.js
+# 依赖清单在 script-release\（package.json 已随脚本迁移）
+cd script-release && npm install && cd ..
+node script-release/typora_crack.js   # 脚本已迁至 script-release\（不再发行，随仓库归类维护）
 ```
 
 按提示输入：
@@ -86,8 +87,9 @@ bash scripts/build-launcher.sh      # → green-test/START-Typora.exe（约 7KB�
 
 ## 6. 压包 + 上传
 
-- 用 7-Zip 压 `green-test\` 的**内容**，命名 `Typora.Green.7z`；
-- 传到对应 Release，文件名固定 `Typora.Green.7z`（见 [RELEASE.md](RELEASE.md)）。
+- 压缩参数**固定用 `-t7z -mx=9`**（实测甜点，别换大字典/纯 LZMA——都是负优化），完整参数表、命名规则与打包前清点见 [PACKAGING.md](PACKAGING.md)；
+- 用 7-Zip 压 `green-test\` 的**内容**（别把 green-test 这个名字套进去），产出名**固定 `Typora.Green.7z`**（不带版本号，与 Release 资产一致）；
+- `dist\` 即发行目录：产物按资产名放进去，上传零改名（见 [RELEASE.md](RELEASE.md)）。
 
 ## 7. 为什么换电脑也能用（指纹自适配）
 

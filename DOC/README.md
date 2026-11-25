@@ -8,21 +8,19 @@
 | 我想…… | 看这篇 |
 |---|---|
 | 从零造一个「免安装绿色版」 | [BUILD-GREEN.md](BUILD-GREEN.md) |
-| 配一个「脚本版」发行包 | [BUILD-SCRIPT.md](BUILD-SCRIPT.md) |
+| 自用组装「脚本版」包（**已停止独立发行**，不上 Release） | [BUILD-SCRIPT.md](BUILD-SCRIPT.md) |
+| 压缩参数、资产命名、打包前清点 | [PACKAGING.md](PACKAGING.md) |
 | 改绿色版的启动器（那个 exe） | [LAUNCHER.md](LAUNCHER.md) |
 | 发版、上传、更新说明 | [RELEASE.md](RELEASE.md) |
 | 弹试用 / 激活失败，要排错 | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) |
 | 想知道「某一版 Typora 凭什么认为能改」、升级后要重查什么 | [COMPATIBILITY.md](COMPATIBILITY.md)（逐版本核查证据 + 尚未验证的项） |
 | 想看 1.14.10 授权链路的**完整逆向**（验签/续期/指纹/密钥存放） | [REVERSE-1.14.10/](REVERSE-1.14.10/REVERSE-1.14.10.md)（含分析脚本与全量字符串表存档） |
-| 搞懂注入到底干了什么 | 仓库根 [TECHNICAL.md](../TECHNICAL.md)（较早，部分已过时）+ `typora_crack.js` 里的注释 + [CHANGELOG.md](../CHANGELOG.md)（每处修复都写了根因与验证） |
+| 搞懂注入到底干了什么 | 仓库根 [TECHNICAL.md](../TECHNICAL.md)（较早，部分已过时）+ `script-release\typora_crack.js` 里的注释 + [CHANGELOG.md](../CHANGELOG.md)（每处修复都写了根因与验证） |
 
 ## 仓库结构
 
 ```
-typora_crack.js          补丁主脚本；注入模板（getInsertCode）就在里面
-start.bat                脚本版入口：自动找 Node，跑补丁脚本
-package.json             依赖清单（**已纳入版本跟踪**）
-package-lock.json        依赖锁定版本（**已纳入版本跟踪**）
+script-release/          脚本版（start.bat + typora_crack.js + 依赖清单；**不再发行**，注入模板 getInsertCode 在 typora_crack.js 里）
 typoraGO/                Go 版激活工具（图形界面；详见其 README）
 scripts/
   build-launcher.sh      编译绿色版启动器
@@ -33,14 +31,16 @@ CHANGELOG.md             版本变更 + 根因 + 验证记录（最有信息量�
 TECHNICAL.md             注入原理（历史文档）
 ```
 
-不进仓库（`.gitignore`）：`node_modules/`、`fax/`（本地发行母本）、`green-test/`（绿色版成品目录）、`*.7z`。
+不进仓库（`.gitignore`）：`node_modules/`、`fax/`（本地发行母本）、`green-test/`（绿色版成品目录）、`dist/`（发行二进制）、`tmp*`。
+
+> **脚本版定位**：`typora_crack.js` / `start.bat` / `package.json` 已迁到仓库内 `script-release/` 归类，**不再打包发行**；后期维护重心是绿色版与 typoratool。
 
 > **依赖清单要跟着改**：`package.json` / `package-lock.json` 是**源码的一部分**，换依赖、升依赖都要一起提交，否则别人 clone 下来跑 `npm install` 会装到另一套版本（`@electron/fuses` 尤其敏感，它要求 Node ≥ 22.12）。脚本首次运行时的自动安装见 [TECHNICAL.md](../TECHNICAL.md)。
 
 ## 贡献约定
 
 - 提交信息用**简体中文**；一次提交只做一件事，别把无关改动混进来。
-- 改了 `typora_crack.js` 的注入模板 → 必须 `node --check` 通过 + 实机跑一次，并在 CHANGELOG 里写「怎么验证的」。
+- 改了 `script-release\typora_crack.js` 的注入模板 → 必须 `node --check` 通过 + 实机跑一次；Go 版对齐测试（`TestHookMatchesJSScript`）也要重跑，两边注入代码必须逐字节一致。
 - 别提交：任何凭据/令牌、`node_modules/`、发行包 7z、打包机上的绝对路径。
 - 提 issue 请带上：Typora 版本号（关于 Typora 里看）、用的是绿色版还是脚本版、`%APPDATA%\Typora\typora.log` 里的相关片段。
 - 界面/脚本里给最终用户看的文字：`.bat` 只用 ASCII；`.vbs` 存 UTF-16；`.md`/`.txt` 用 UTF-8（包内 `README-先看我.txt` 沿用带 BOM，方便老记事本）。

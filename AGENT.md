@@ -14,17 +14,17 @@
 | 版本 | 做什么 |
 |---|---|
 | **绿色版** | 一份已打好补丁的完整 Typora（内置 1.14.10），解压即用 |
-| **脚本版** | 用户在自己已装的 Typora 上跑 `typora_crack.js`，注入补丁 |
+| **脚本版** | （已停止发行）源码在 `script-release/`，用户在自己已装的 Typora 上跑 `typora_crack.js` |
 
 两个版本的分发物都在 [Releases](../../releases)。仓库里是**源码与文档**，没有二进制成品。
 
 ## 二、技术原理（可核对）
 
-补丁不是"破解服务器"，全部在**本地**完成，代码都在 `typora_crack.js` 里可查：
+补丁不是"破解服务器"，全部在**本地**完成，代码都在 `script-release/typora_crack.js` 里可查：
 
 | 手法 | 位置 | 作用 |
 |---|---|---|
-| 解包 `app.asar` → 注入 `launch.dist.js` | `typora_crack.js` 注入模板 | 让 Electron 加载注入代码 |
+| 解包 `app.asar` → 注入 `launch.dist.js` | `script-release/typora_crack.js` 注入模板 | 让 Electron 加载注入代码 |
 | `crypto.publicDecrypt` / `privateDecrypt` Hook | 注入模板 | 替换本地验签返回值 |
 | `fs` 路径重定向 `app\` → `app.bak\` | 注入模板 | 让程序仍读到原始文件 |
 | 4 个网络出口拦截更新请求 | `isUpdateUrl()` | 阻止自动更新覆盖补丁 |

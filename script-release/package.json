@@ -1,0 +1,24 @@
+{
+  "name": "typora-patcher",
+  "version": "1.0.6",
+  "description": "Typora 激活补丁（Windows）：解包 app.asar、注入 Hook、翻转 Electron Fuses",
+  "private": true,
+  "main": "typora_crack.js",
+  "scripts": {
+    "check": "node --check typora_crack.js"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@electron/fuses": "^2.1.2",
+    "asar": "^3.2.0",
+    "chalk": "^4.1.2",
+    "iconv-lite": "^0.7.2",
+    "readline-sync": "^1.4.10"
+  }
+}

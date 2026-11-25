@@ -20,6 +20,8 @@ video/
 # Go 版工具：编译产物与测试文件不进仓库（源码 typoraGO/ 正常跟踪）
 typoraGO/*.exe
 typoraGO/**/*_test.go
+# 本地构建的发行二进制（Release 走 GitHub 上传，不进 git）
+dist/
 # Windows junk
 Thumbs.db
 desktop.ini
